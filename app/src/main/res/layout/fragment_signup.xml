@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_signup.xml -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/animelock"
+        android:textSize="45sp"
+        android:textStyle="italic|bold"
+        android:textAppearance="@color/red"
+        android:textColor="@color/red"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/text_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up_now"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:textStyle="bold|normal" />
+
+    <!-- Username EditText -->
+    <EditText
+        android:id="@+id/edit_text_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/SignUpUsername"
+        android:background="@drawable/border_textview"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="45dp"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:importantForAutofill="no" />
+
+    <!-- Email EditText -->
+    <EditText
+        android:id="@+id/edit_text_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/border_textview"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:importantForAutofill="no" />
+
+    <!-- Password EditText -->
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/SignUpPassword"
+        android:inputType="textPassword"
+        android:background="@drawable/border_textview"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Confirm Password EditText -->
+    <EditText
+        android:id="@+id/edit_text_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:background="@drawable/border_textview"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/button_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"/>
+
+    <!-- Link to Login Page -->
+    <TextView
+        android:id="@+id/loginlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/already_have_an_account_log_in"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+</LinearLayout>
