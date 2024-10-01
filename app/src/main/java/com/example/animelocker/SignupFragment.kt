@@ -1,8 +1,7 @@
-package com.example.animelocker
+// SignUpFragment.kt
+package com.example.animelocker // Change to your package name
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SignUpFragment : Fragment() {
+
+    private lateinit var dbHelper: DatabaseHelper
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +28,9 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dbHelper = DatabaseHelper(requireContext())
+        userRepository = UserRepository(dbHelper)
+
         val editTextUsername = view.findViewById<EditText>(R.id.edit_text_username)
         val editTextEmail = view.findViewById<EditText>(R.id.edit_text_email)
         val editTextPassword = view.findViewById<EditText>(R.id.edit_text_password)
@@ -36,10 +39,10 @@ class SignUpFragment : Fragment() {
         val textLoginLink = view.findViewById<TextView>(R.id.loginlink)
 
         buttonSignUp.setOnClickListener {
-            val username = editTextUsername.text.toString()
-            val email = editTextEmail.text.toString()
-            val password = editTextPassword.text.toString()
-            val confirmPassword = editTextConfirmPassword.text.toString()
+            val username = editTextUsername.text.toString().trim()
+            val email = editTextEmail.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
+            val confirmPassword = editTextConfirmPassword.text.toString().trim()
 
             // Validate input fields
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -52,38 +55,18 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Make API call to register the user
-            registerUser(username, email, password)
+            // Register the user
+            if (userRepository.registerUser(username, email, password)) {
+                Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_signup_to_login)
+            } else {
+                Toast.makeText(requireContext(), "Username or email already exists", Toast.LENGTH_SHORT).show()
+            }
         }
 
         textLoginLink.setOnClickListener {
             findNavController().navigate(R.id.action_signup_to_login)
         }
     }
-
-    private fun registerUser(username: String, email: String, password: String) {
-        RetrofitClient.instance.registerUser(username, email, password).enqueue(object : Callback<RegistrationResponse> {
-             override fun onResponse(call: Call<RegistrationResponse>, response: Response<RegistrationResponse>) {
-                if (response.isSuccessful) {
-                    val registrationResponse = response.body()
-                    if (registrationResponse?.status == "success") {
-                        Toast.makeText(requireContext(), "Registration successful!", Toast.LENGTH_SHORT).show()
-                        // Navigate to the login screen or home screen
-                        findNavController().navigate(R.id.action_signup_to_login)
-                    } else {
-                        Toast.makeText(requireContext(), registrationResponse?.message ?: "Error", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "Server error. Please try again.", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<RegistrationResponse>, t: Throwable) {
-                Log.e("Signup Error", "Error: ${t.message}")
-                Toast.makeText(requireContext(), "Network error. Please check your connection.", Toast.LENGTH_SHORT).show()
-            }
-
-        })
-    }
-
 }
+
