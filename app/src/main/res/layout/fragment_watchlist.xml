@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/red"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <LinearLayout
@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="13sp"
+            android:textSize="12sp"
             style="@style/FilterButtonStyle"
             android:text="@string/watching"/>
 
@@ -94,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="15sp"
+            android:textSize="13sp"
             style="@style/FilterButtonStyle"
             android:text="@string/planned"/>
 
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/FilterButtonStyle"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="@string/dropped"/>
     </LinearLayout>
 

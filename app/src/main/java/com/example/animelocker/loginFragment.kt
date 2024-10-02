@@ -40,6 +40,7 @@ class LoginFragment : Fragment() {
         val editTextPassword = view.findViewById<EditText>(R.id.editTextPassword)
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
         val signUpLink = view.findViewById<TextView>(R.id.text_sign_up)
+        val forgotPasswordLink = view.findViewById<TextView>(R.id.text_forgot_password)
 
         // Set click listener for login button
         buttonLogin.setOnClickListener {
@@ -61,6 +62,16 @@ class LoginFragment : Fragment() {
         signUpLink.setOnClickListener {
             // Navigate to the sign-up fragment
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
+
+        // Set click listener for forgot password link
+        forgotPasswordLink.setOnClickListener {
+            val username = editTextUsername.text.toString()
+            if (username.isNotEmpty()) {
+                resetPassword(username)
+            } else {
+                Toast.makeText(requireContext(), "Please enter your username", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -102,4 +113,38 @@ class LoginFragment : Fragment() {
             }
     }
 
+    private fun resetPassword(username: String) {
+        // Query Firestore for the user by username to get the email
+        firestore.collection("users")
+            .whereEqualTo("username", username)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result != null && task.result.documents.isNotEmpty()) {
+                        val document = task.result.documents[0]
+                        val email = document.getString("email")
+                        if (email != null) {
+                            // Send password reset email
+                            auth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener { resetTask ->
+                                    if (resetTask.isSuccessful) {
+                                        Toast.makeText(requireContext(), "Reset email sent to $email", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Log.e("LoginFragment", "Error sending reset email: ${resetTask.exception?.message}")
+                                        Toast.makeText(requireContext(), "Error sending reset email: ${resetTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        } else {
+                            Toast.makeText(requireContext(), "Email not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Username not found", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.e("LoginFragment", "Error getting documents: ${task.exception?.message}")
+                    Toast.makeText(requireContext(), "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
 }
+
