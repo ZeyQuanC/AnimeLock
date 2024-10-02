@@ -44,20 +44,21 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
    - Access curated lists of popular and highly-rated anime.
 6. *Community Reviews & Ratings*:
     - Read and contribute reviews and ratings from other users.
+7.  *Anime News Feed*:
+    - Stay updated with the latest news and announcements in the anime industry.
+8.  *Friends & Following*:
+    - Connect with friends and see what they are watching to discover new shows.
 
 **Optional Features**
 
-1. *Friends & Following*:
-   - Connect with friends and see what they are watching to discover new shows.
-2. *Anime News Feed*:
-   - Stay updated with the latest news and announcements in the anime industry.
+1. 
 3. 
 
 ### 2. Screen Archetypes
 
 - Launch Screen
-  - User can select Login
-  - User can select Sign Up
+  - User can select Login.
+  - User can select Sign Up.
     
 - Login Screen
   - User can login to account.
@@ -66,21 +67,43 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
   - User can make an account.
     
 - Home Screen
+  - Popular Anime, user Recent Activity, and recommended shows.
+
+- Watchlist Screen
+   - user can categorized anime by Watching,Completed, Plan to watch, and Dropped.
+
+- Discovery Screen
+   - user can browse featured, Trending, and differernt Genres.
+
+- Community Screen
+  - Users can communicate with eachother.
+ 
+- Planner/Calender Screen
+
+- Manga Screen
+  - user can browse manga Featured, different Genres, Recently Updated, and Recommended for you.
+
+- Overview Screen
+  - Shows user a more detailed view of anime or manga once clicked.
+
+- Save Screen
+  - user can add/save anime or manga to watchlist (can back out of save).
+
+
+     
   
-    
-
-
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* Home 
+* Home to Home Screen
+* 
 * 
 
 **Flow Navigation** (Screen to Screen)
 
 - Login Screnn
-  - e> Home Screen
+  - => Home Screen
   
 - Sign Up Screen 
   - => Home Screen 
