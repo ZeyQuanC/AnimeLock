@@ -26,6 +26,9 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
   - Promotes regular engagement with anime through episode reminders, personalized recommendations, and social interactions. Users are encouraged to form a routine around their anime-watching habits, making it easier to integrate into daily life.
 - **Scope:**
   - The app encompasses a wide range of features, including personalized watchlists, discovery tools, community interaction, and event tracking, making it a comprehensive solution for managing anime interests. Future enhancements could include additional integrations, like partnerships with streaming services or expanded community features.
+ 
+
+
 ## Product Spec
 
 ### 1. User Features (Required and Optional)
@@ -90,15 +93,17 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
   - user can add/save anime or manga to watchlist (can back out of save).
 
 
-     
   
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
 * Home to Home Screen
-* 
-* 
+* Tv to Watchlist Screen
+* Magnifying glass to Discovery Screen
+* People to Community Screen
+* Calender to Planner/Calender Screen
+* Books to Manga Screen
 
 **Flow Navigation** (Screen to Screen)
 
@@ -109,12 +114,27 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
   - => Home Screen 
 
 - Home Screen 
-  - => 
+  - => Overview screen (must click on anime)
+ 
+- Watchlist Screen
+  - => Overview screen (must click on anime)
+    
+- Discovery Screen
+  - => Overview screen (must click on anime)
+ 
+- Manga Screen
+  - => Overview screen (must click on manga)
+
+- Overview Screen
+  - => Save Screen( must click "+" symbol)
+ 
+- Save Screen
+  - => Overview Screen
 
 
 ## Wireframes
 
-<img src="WireFrame.jpg" width=600>
+<img src=".jpg" width=600>
 
 <br>
 
