@@ -28,4 +28,12 @@
     <string name="recommended_anime">Recommended Anime</string>
     <string name="animelockh">AnimeLock</string>
     <string name="home">Home</string>
+    <string name="your_watchlist_is_empty">Your watchlist is empty</string>
+    <string name="animelockwl">AnimeLock</string>
+    <string name="watching">Watching</string>
+    <string name="all">All</string>
+    <string name="completed">Completed</string>
+    <string name="planned">Planned</string>
+    <string name="dropped">Dropped</string>
+    <string name="watchlist">Watchlist</string>
 </resources>

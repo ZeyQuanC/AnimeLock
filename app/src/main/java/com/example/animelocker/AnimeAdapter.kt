@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AnimeAdapter(
-    private val animeList: List<Anime>,
+    private var animeList: List<Anime>,  // Use var to allow updating the list
     private val onAnimeClick: (Anime) -> Unit
 ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
 
@@ -31,4 +31,10 @@ class AnimeAdapter(
     }
 
     override fun getItemCount() = animeList.size
+
+    // Method to update the data list and notify the adapter
+    fun updateData(newList: List<Anime>) {
+        animeList = newList
+        notifyDataSetChanged()  // Notify the adapter that the data set has changed
+    }
 }

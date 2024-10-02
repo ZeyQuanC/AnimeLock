@@ -49,12 +49,20 @@ class HomeFragment : Fragment() {
 
         // Setup Bottom Navigation
         val bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.navigation_home -> true
+                R.id.navigation_home -> {
+                    findNavController().navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.navigation_watchlist -> {
+                    findNavController().navigate(R.id.watchlistFragment)
+                    true
+                }
                 else -> false
             }
         }
+
     }
 
     private fun fetchPopularAnimeByPopularity() {
@@ -74,7 +82,8 @@ class HomeFragment : Fragment() {
                             it.id,
                             it.title,
                             it.main_picture.medium, // Extract the medium image URL here
-                            it.synopsis
+                            it.synopsis,
+
                         )
                     } ?: emptyList()
 
