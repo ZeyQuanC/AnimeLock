@@ -12,4 +12,9 @@
         android:icon="@drawable/outline_list_alt_24"
         android:title="@string/watchlist" />
 
+    <item
+        android:id="@+id/navigation_community"
+        android:icon="@drawable/baseline_speaker_notes_24"
+        android:title="@string/community" />
+
 </menu>

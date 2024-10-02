@@ -45,6 +45,10 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigationView.visibility = View.VISIBLE
                     Log.d(TAG, "Showing BottomNavigationView for WatchlistFragment.")
                 }
+                R.id.communityFragment -> {
+                    bottomNavigationView.visibility = View.VISIBLE
+                    Log.d(TAG, "Showing BottomNavigationView for WatchlistFragment.")
+                }
                 else -> {
                     bottomNavigationView.visibility = View.GONE
                     Log.d(TAG, "Hiding BottomNavigationView for destination: ${destination.label}.")
@@ -62,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_watchlist -> {
                     navController.navigate(R.id.watchlistFragment) // Navigate to Watchlist
+                    true
+                }
+                R.id.navigation_community -> {
+                    navController.navigate(R.id.communityFragment)
                     true
                 }
                 else -> false

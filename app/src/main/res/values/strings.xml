@@ -36,4 +36,7 @@
     <string name="planned">Planned</string>
     <string name="dropped">Dropped</string>
     <string name="watchlist">Watchlist</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="post">Post</string>
+    <string name="community">Community</string>
 </resources>
