@@ -21,4 +21,11 @@
     <string name="sign_up">Sign in</string>
     <string name="already_have_an_account_log_in">Already have an account? log in here</string>
     <string name="animelock">Animelock</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="popular_anime">Popular Anime</string>
+    <string name="user_button" />
+    <string name="notification_button" />
+    <string name="recommended_anime">Recommended Anime</string>
+    <string name="animelockh">AnimeLock</string>
+    <string name="home">Home</string>
 </resources>

@@ -1,5 +1,5 @@
 // SignUpFragment.kt
-package com.example.animelocker // Change to your package name
+package com.example.animelocker
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var dbHelper: DatabaseHelper
-    private lateinit var userRepository: UserRepository
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +30,9 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dbHelper = DatabaseHelper(requireContext())
-        userRepository = UserRepository(dbHelper)
+        // Initialize Firebase Auth and Firestore
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val editTextUsername = view.findViewById<EditText>(R.id.edit_text_username)
         val editTextEmail = view.findViewById<EditText>(R.id.edit_text_email)
@@ -55,18 +58,43 @@ class SignUpFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // Register the user
-            if (userRepository.registerUser(username, email, password)) {
-                Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_signup_to_login)
-            } else {
-                Toast.makeText(requireContext(), "Username or email already exists", Toast.LENGTH_SHORT).show()
-            }
+            // Register the user with Firebase
+            registerUser(username, email, password)
         }
 
         textLoginLink.setOnClickListener {
             findNavController().navigate(R.id.action_signup_to_login)
         }
+    }
+
+    private fun registerUser(username: String, email: String, password: String) {
+        // Create user with Firebase Auth
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // User registration successful
+                    val userId = auth.currentUser?.uid
+                    val userData = hashMapOf(
+                        "username" to username,
+                        "email" to email
+                    )
+
+                    // Store user data in Firestore
+                    if (userId != null) {
+                        firestore.collection("users").document(userId).set(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
+                                findNavController().navigate(R.id.action_signupFragment_to_homeFragment)
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(requireContext(), "Error storing user data: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                } else {
+                    // Registration failed
+                    Toast.makeText(requireContext(), "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }
 

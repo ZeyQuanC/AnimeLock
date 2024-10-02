@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "341582399412",
+    "project_id": "animelock-49b1f",
+    "storage_bucket": "animelock-49b1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341582399412:android:d7fc33a3c4e5ebf455d4e1",
+        "android_client_info": {
+          "package_name": "com.example.animelocker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKpmm-phuNli93dEsF80PlqTKkhkI9D8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
