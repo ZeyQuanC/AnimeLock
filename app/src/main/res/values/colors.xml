@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#881313</color>
     <color name="grey">#979696</color>
+    <color name="placeholder_color">#D3D3D3</color> <!-- Light Gray -->
 
 
 </resources>

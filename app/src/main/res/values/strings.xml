@@ -39,4 +39,11 @@
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
     <string name="post">Post</string>
     <string name="community">Community</string>
+    <string name="featured_anime">Featured</string>
+    <string name="anime_genres">Genre</string>
+    <string name="trending_anime">Trending</string>
+    <string name="new_releases">New Releases</string>
+    <string name="search_button">Search</string>
+    <string name="search">Search...</string>
+    <string name="Discovery">Discovery</string>
 </resources>

@@ -13,8 +13,14 @@
         android:title="@string/watchlist" />
 
     <item
+        android:id="@+id/navigation_Discovery"
+        android:icon="@drawable/baseline_search_24"
+        android:title="@string/Discovery" />
+
+    <item
         android:id="@+id/navigation_community"
         android:icon="@drawable/baseline_speaker_notes_24"
         android:title="@string/community" />
+
 
 </menu>

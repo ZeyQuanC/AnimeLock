@@ -53,5 +53,7 @@ dependencies {
     implementation (libs.jbcrypt)
     implementation (libs.firebase.firestore.ktx)
     implementation (libs.firebase.auth.ktx)
+    implementation (libs.glide)  // Check for the latest version
+    annotationProcessor (libs.compiler)  // Check for the latest version
 
 }
