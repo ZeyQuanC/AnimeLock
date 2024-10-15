@@ -53,6 +53,10 @@ class MainActivity : AppCompatActivity() {
                     bottomNavigationView.visibility = View.VISIBLE
                     Log.d(TAG, "Showing BottomNavigationView for communityFragment.")
                 }
+                R.id.eventsFragment -> {
+                    bottomNavigationView.visibility = View.VISIBLE
+                    Log.d(TAG, "Showing BottomNavigationView for communityFragment.")
+                }
                 else -> {
                     bottomNavigationView.visibility = View.GONE
                     Log.d(TAG, "Hiding BottomNavigationView for destination: ${destination.label}.")
@@ -78,6 +82,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_community -> {
                     navController.navigate(R.id.communityFragment)
+                    true
+                }
+                R.id.navigation_events -> {
+                    navController.navigate(R.id.eventsFragment)
                     true
                 }
                 else -> false

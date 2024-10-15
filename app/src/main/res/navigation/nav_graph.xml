@@ -76,6 +76,10 @@
             android:id="@+id/action_homeFragment_to_discoveryFragment"
             app:destination="@id/discoveryFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+
     </fragment>
 
     <!-- Watchlist Fragment -->
@@ -133,6 +137,15 @@
         <action
             android:id="@+id/action_discoveryFragment_to_communityFragment"
             app:destination="@id/communityFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/eventsFragment"
+        android:name="com.example.animelocker.EventsFragment"
+        android:label="Events"
+        tools:layout="@layout/fragment_events" >
+
+
 
     </fragment>
 

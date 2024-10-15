@@ -22,5 +22,10 @@
         android:icon="@drawable/baseline_speaker_notes_24"
         android:title="@string/community" />
 
+    <item
+        android:id="@+id/navigation_events"
+        android:icon="@drawable/outline_calendar_month_24"
+        android:title="@string/Events" />
+
 
 </menu>

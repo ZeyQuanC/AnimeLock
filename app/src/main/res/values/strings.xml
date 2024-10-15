@@ -46,4 +46,9 @@
     <string name="search_button">Search</string>
     <string name="search">Search...</string>
     <string name="Discovery">Discovery</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_time">Event Time</string>
+    <string name="events">Events</string>
+    <string name="Events">Events</string>
+    <string name="Eventss">Events</string>
 </resources>
