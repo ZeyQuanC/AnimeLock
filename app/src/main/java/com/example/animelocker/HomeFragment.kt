@@ -44,6 +44,9 @@ class HomeFragment : Fragment() {
         recentActivityRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recommendedRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+        // Initialize MyAnimeListClient with context
+        MyAnimeListClient.initialize(requireContext())
+
         // Fetch anime data
         fetchPopularAnimeByPopularity()
 
@@ -62,49 +65,69 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
-
     }
 
     private fun fetchPopularAnimeByPopularity() {
-        val apiKey = "ccf5d159aca09eaaed5c23f05fdd29f4" // Your API key
-        val apiService = ApiClient.getClient(apiKey).create(MyAnimeListApi::class.java)
+        val apiService = MyAnimeListClient.getApiService()
+        Log.d("API Request", "Fetching anime ranking by popularity with limit 50 and fields title, main_picture, synopsis")
+
         val call = apiService.getAnimeRanking(
             rankingType = "bypopularity",
             limit = 50,
-            fields = "title,main_picture,synopsis"
+            fields = "title, main_picture, synopsis" // Make sure to include synopsis if you use it
         )
 
-        call.enqueue(object : Callback<List<AnimeResponse>> {
-            override fun onResponse(call: Call<List<AnimeResponse>>, response: Response<List<AnimeResponse>>) {
+        call.enqueue(object : Callback<AnimeRankingResponse> {
+            override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
+                Log.d("API Response Code", "Response code: ${response.code()}")
                 if (response.isSuccessful) {
-                    val animeList = response.body()?.map {
-                        Anime(
-                            it.id,
-                            it.title,
-                            it.main_picture.medium, // Extract the medium image URL here
-                            it.synopsis,
+                    Log.d("API Raw Response", response.raw().toString())
 
-                        )
-                    } ?: emptyList()
+                    val animeRankingResponse = response.body()
+                    Log.d("API Parsed Response", animeRankingResponse.toString())
 
-                    // Update the popular adapter
+                    val animeResponses = animeRankingResponse?.data ?: emptyList()
+                    Log.d("API Anime List", "Parsed ${animeResponses.size} anime items")
+
+                    // Update parse function to take List<AnimeRankingResponse.AnimeRank>
+                    val animeList = parseAnimeResponse(animeResponses)
+                    Log.d("Parsed Anime List", animeList.joinToString { "ID: ${it.id}, Title: ${it.title}" })
+
                     popularAdapter = AnimeAdapter(animeList) { anime -> onAnimeClicked(anime) }
                     popularRecyclerView.adapter = popularAdapter
+                    Log.d("Adapter", "Adapter updated with ${animeList.size} items")
                 } else {
                     Log.e("API Error", "Response code: ${response.code()}")
                 }
             }
 
-            override fun onFailure(call: Call<List<AnimeResponse>>, t: Throwable) {
-                Log.e("API Failure", t.message.toString())
+            override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
+                Log.e("API Failure", "Failed to fetch data: ${t.message}")
             }
         })
     }
 
+    // Update the function to accept List<AnimeRankingResponse.AnimeRank>
+    private fun parseAnimeResponse(animeResponses: List<AnimeRankingResponse.AnimeRank>): List<Anime> {
+        Log.d("Parse Anime Response", "Converting ${animeResponses.size} AnimeRank objects to Anime objects")
+        return animeResponses.mapNotNull { animeRank ->
+            animeRank.node.main_picture?.let { mainPicture ->
+                Log.d("Anime Conversion", "Mapping AnimeRank to Anime: ID=${animeRank.node.id}, Title=${animeRank.node.title ?: "Unknown"}")
+                Anime(
+                    id = animeRank.node.id,
+                    title = animeRank.node.title ?: "Untitled", // Default value for title
+                    imageUrl = mainPicture.medium,
+                    description = animeRank.node.synopsis ?: "No description available" // Assuming synopsis is available in AnimeNode
+                )
+            }
+        }
+    }
 
 
-    // Remove or replace fetchRecentActivityAnime and fetchRecommendedAnime if not used yet
-    // If you have API endpoints for these, implement them similar to fetchPopularAnime
+
+
+
+
 
     private fun onAnimeClicked(anime: Anime) {
         Log.d("HomeFragment", "Anime clicked: ${anime.title}")
@@ -112,5 +135,3 @@ class HomeFragment : Fragment() {
         // findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
     }
 }
-
-

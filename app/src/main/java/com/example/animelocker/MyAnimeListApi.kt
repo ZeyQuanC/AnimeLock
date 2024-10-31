@@ -10,8 +10,8 @@ interface MyAnimeListApi {
 
     @GET("anime/ranking")
     fun getAnimeRanking(
-        @Query("rankingType") rankingType: String,
+        @Query("ranking_type") rankingType: String,
         @Query("limit") limit: Int,
         @Query("fields") fields: String
-    ): Call<List<AnimeResponse>>
+    ): Call<AnimeRankingResponse> // Expecting AnimeRankingResponse here, not List<AnimeResponse>
 }
