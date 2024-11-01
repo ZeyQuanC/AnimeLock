@@ -17,7 +17,7 @@ class AnimeAdapter(
 
     class AnimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.anime_title)
-        val description: TextView = itemView.findViewById(R.id.anime_description)
+     //   val description: TextView = itemView.findViewById(R.id.anime_description)
         val image: ImageView = itemView.findViewById(R.id.anime_image)
     }
 
@@ -29,7 +29,7 @@ class AnimeAdapter(
     override fun onBindViewHolder(holder: AnimeViewHolder, position: Int) {
         val anime = animeList[position]
         holder.title.text = anime.title
-        holder.description.text = anime.description
+     //   holder.description.text = anime.description
 
         // Load image with Glide
         Glide.with(holder.itemView.context)
