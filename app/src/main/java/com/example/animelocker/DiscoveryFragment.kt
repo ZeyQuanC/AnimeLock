@@ -52,7 +52,7 @@ class DiscoveryFragment : Fragment() {
 
         // Load anime data from the API
         fetchFeaturedAnime()
-        fetchGenres()
+        fetchGenres(30230)
         fetchTrendingAnime()
         fetchNewReleases()
 
@@ -110,10 +110,9 @@ class DiscoveryFragment : Fragment() {
 
 
 
-    private fun fetchGenres() {
-        // Implement your API call to fetch genres
+    private fun fetchGenres(animeId: Int) {
         val apiService = MyAnimeListClient.getApiService()
-        val call = apiService.getAnimeGenres() // Adjust this method call based on your actual implementation
+        val call = apiService.getAnimeGenres(animeId) // Call the method with the anime ID
 
         call.enqueue(object : Callback<GenresResponse> {
             override fun onResponse(call: Call<GenresResponse>, response: Response<GenresResponse>) {
@@ -125,14 +124,20 @@ class DiscoveryFragment : Fragment() {
                     recyclerViewGenres.adapter = GenreAdapter(genreList) { genre ->
                         // Handle click event for genre
                     }
+                } else {
+                    // Handle non-successful response
+                    Log.e("API Error", "Response not successful: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<GenresResponse>, t: Throwable) {
                 // Handle error
+                Log.e("API Failure", "Failed to fetch genres: ${t.message}")
             }
         })
     }
+
+
 
     private fun fetchTrendingAnime() {
         val apiService = MyAnimeListClient.getApiService()

@@ -4,6 +4,7 @@ package com.example.animelocker
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MyAnimeListApi {
@@ -23,10 +24,14 @@ interface MyAnimeListApi {
         @Query("fields") fields: String = "title,main_picture,synopsis"
     ): Call<AnimeRankingResponse>
 
-    // Method to fetch genres
-    @GET("anime/genres") // Adjust the endpoint as needed
-    fun getAnimeGenres(): Call<GenresResponse>
+    @GET("anime/{id}")
+    fun getAnimeGenres(
+        @Path("id") animeId: Int,
+        @Query("fields") fields: String = "genres"
+    ): Call<GenresResponse>
 
+    @GET("anime/suggestions?limit=20")
+    fun getAnimeSuggestions(): Call<AnimeSuggestionsResponse>
 
 
 }

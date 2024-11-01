@@ -49,6 +49,7 @@ class HomeFragment : Fragment() {
 
         // Fetch anime data
         fetchPopularAnimeByPopularity()
+        fetchRecommendedAnime()  // Fetch recommendations
 
         // Setup Bottom Navigation
         val bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -107,7 +108,42 @@ class HomeFragment : Fragment() {
         })
     }
 
-    // Update the function to accept List<AnimeRankingResponse.AnimeRank>
+    private fun fetchRecommendedAnime() {
+        val apiService = MyAnimeListClient.getApiService()
+        Log.d("API Request", "Fetching anime recommendations with limit 20")
+
+        val call = apiService.getAnimeSuggestions() // Call the API endpoint for recommendations
+
+        call.enqueue(object : Callback<AnimeSuggestionsResponse> {
+            override fun onResponse(call: Call<AnimeSuggestionsResponse>, response: Response<AnimeSuggestionsResponse>) {
+                Log.d("API Response Code", "Response code: ${response.code()}")
+                if (response.isSuccessful) {
+                    Log.d("API Raw Response", response.raw().toString())
+
+                    val suggestionsResponse = response.body()
+                    Log.d("API Parsed Response", suggestionsResponse.toString())
+
+                    val animeSuggestions = suggestionsResponse?.data ?: emptyList()
+                    Log.d("API Recommendations List", "Parsed ${animeSuggestions.size} anime items")
+
+                    // Update parse function to convert List<AnimeSuggestion> to List<Anime>
+                    val recommendedList = parseSuggestionsResponse(animeSuggestions)
+                    Log.d("Parsed Recommendations List", recommendedList.joinToString { "ID: ${it.id}, Title: ${it.title}" })
+
+                    recommendedAdapter = AnimeAdapter(recommendedList) { anime -> onAnimeClicked(anime) }
+                    recommendedRecyclerView.adapter = recommendedAdapter
+                    Log.d("Adapter", "Recommended adapter updated with ${recommendedList.size} items")
+                } else {
+                    Log.e("API Error", "Response code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AnimeSuggestionsResponse>, t: Throwable) {
+                Log.e("API Failure", "Failed to fetch recommendations: ${t.message}")
+            }
+        })
+    }
+
     private fun parseAnimeResponse(animeResponses: List<AnimeRankingResponse.AnimeRank>): List<Anime> {
         Log.d("Parse Anime Response", "Converting ${animeResponses.size} AnimeRank objects to Anime objects")
         return animeResponses.mapNotNull { animeRank ->
@@ -123,11 +159,20 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-
-
-
-
+    private fun parseSuggestionsResponse(suggestions: List<AnimeSuggestionsResponse.AnimeSuggestion>): List<Anime> {
+        Log.d("Parse Suggestions Response", "Converting ${suggestions.size} AnimeSuggestion objects to Anime objects")
+        return suggestions.mapNotNull { suggestion ->
+            suggestion.node.main_picture?.let { mainPicture ->
+                Log.d("Suggestions Conversion", "Mapping AnimeSuggestion to Anime: ID=${suggestion.node.id}, Title=${suggestion.node.title ?: "Unknown"}")
+                Anime(
+                    id = suggestion.node.id,
+                    title = suggestion.node.title ?: "Untitled", // Default value for title
+                    imageUrl = mainPicture.medium,
+                    description = "No description available" // Default description since this endpoint might not return one
+                )
+            }
+        }
+    }
 
     private fun onAnimeClicked(anime: Anime) {
         Log.d("HomeFragment", "Anime clicked: ${anime.title}")
