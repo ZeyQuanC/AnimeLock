@@ -74,9 +74,16 @@ class SignUpFragment : Fragment() {
                 if (task.isSuccessful) {
                     // User registration successful
                     val userId = auth.currentUser?.uid
+
+                    // Default avatar URL
+                    val defaultAvatarUrl = "https://your-storage-link/default_avatar.png" // Replace with your default avatar URL
+
+                    // Prepare user data
                     val userData = hashMapOf(
                         "username" to username,
-                        "email" to email
+                        "email" to email,
+                        "profilePicUrl" to defaultAvatarUrl, // Add default avatar
+                        "bio" to "This is your bio. Edit it to tell others about yourself!" // Add default bio
                     )
 
                     // Store user data in Firestore
@@ -96,5 +103,6 @@ class SignUpFragment : Fragment() {
                 }
             }
     }
+
 }
 

@@ -52,4 +52,7 @@
     <string name="Events">Events</string>
     <string name="Eventss">Events</string>
     <string name="mal_client_id">ccf5d159aca09eaaed5c23f05fdd29f4</string>
+    <string name="usernameprofile">Username</string>
+    <string name="userBio">This is the user\'s bio.</string>
+    <string name="profile_picture">pfp</string>
 </resources>

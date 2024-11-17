@@ -7,6 +7,8 @@ import androidx.navigation.fragment.findNavController
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -66,7 +68,17 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
+        // Handle user button click
+        val userButton = view.findViewById<ImageButton>(R.id.user_button)
+        userButton.setOnClickListener {
+            Log.d("HomeFragment", "User button clicked")
+            // Navigate to the user profile/settings screen
+            findNavController().navigate(R.id.action_homeFragment_to_ProfileFragment)
+        }
+
+
     }
+
 
     private fun fetchPopularAnimeByPopularity() {
         val apiService = MyAnimeListClient.getApiService()
