@@ -55,4 +55,7 @@
     <string name="usernameprofile">Username</string>
     <string name="userBio">This is the user\'s bio.</string>
     <string name="profile_picture">pfp</string>
+    <string name="edit_bio">Edit Bio</string>
+    <string name="edit_bio_hint">Write something about yourself...</string>
+    <string name="save">Save</string>
 </resources>

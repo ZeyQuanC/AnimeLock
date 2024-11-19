@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,7 +22,12 @@ class ProfileFragment : Fragment() {
     private lateinit var profileImageView: ImageView
     private lateinit var usernameTextView: TextView
     private lateinit var bioTextView: TextView
+    private lateinit var bioEditText: EditText
+    private lateinit var editBioButton: Button
+    private lateinit var saveBioButton: Button
     private lateinit var bottomNavigationView: BottomNavigationView
+
+    private var isEditingBio = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +40,22 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Find views
-        profileImageView = view.findViewById(R.id.profileImageView)
+        profileImageView = view.findViewById(R.id.profileImageButton)
         usernameTextView = view.findViewById(R.id.usernameTextView)
         bioTextView = view.findViewById(R.id.bioTextView)
+        bioEditText = view.findViewById(R.id.bioEditText)
+        editBioButton = view.findViewById(R.id.editBioButton)
+        saveBioButton = view.findViewById(R.id.saveBioButton)
         bottomNavigationView = view.findViewById(R.id.bottom_navigation)
+
+        // Setup the button to toggle between edit mode and display mode for bio
+        editBioButton.setOnClickListener {
+            toggleBioEditMode(true)
+        }
+
+        saveBioButton.setOnClickListener {
+            saveBio()
+        }
 
         // Set up bottom navigation
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -49,43 +68,84 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Get user data from Firestore
+        // Fetch user data from Firestore
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             val firestore = FirebaseFirestore.getInstance()
             firestore.collection("users").document(userId).get()
                 .addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
-                        // Retrieve user data, applying default values if necessary
+                        // Retrieve user data from Firestore
                         val username = documentSnapshot.getString("username") ?: "Unknown"
                         val bio = documentSnapshot.getString("bio") ?: "No bio available"
                         val profilePicUrl = documentSnapshot.getString("profile_pic_url")
 
+                        // Set text views
                         usernameTextView.text = username
                         bioTextView.text = bio
+                        bioEditText.setText(bio)
 
-                        // Load profile picture with Glide, using placeholder if URL is empty
+                        // Load profile picture
                         if (!profilePicUrl.isNullOrEmpty()) {
                             Glide.with(requireContext())
                                 .load(profilePicUrl)
-                                .placeholder(R.drawable.default_avatar) // Optional placeholder while loading
+                                .placeholder(R.drawable.default_avatar)
                                 .into(profileImageView)
                         } else {
-                            profileImageView.setImageResource(R.drawable.default_avatar) // Default image if no URL
+                            profileImageView.setImageResource(R.drawable.default_avatar)
                         }
-                    } else {
-                        // Handle case where document doesn't exist
-                        Toast.makeText(requireContext(), "No user data found", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e ->
                     Log.e("ProfileFragment", "Error getting user data: ${e.message}")
-                    // Show error message to the user
                     Toast.makeText(requireContext(), "Failed to load profile data", Toast.LENGTH_SHORT).show()
                 }
+        }
+    }
+
+    private fun toggleBioEditMode(isEditing: Boolean) {
+        isEditingBio = isEditing
+        if (isEditing) {
+            // Show the EditText and hide the TextView
+            bioEditText.visibility = View.VISIBLE
+            bioTextView.visibility = View.GONE
+
+            // Change button text to "Save"
+            saveBioButton.visibility = View.VISIBLE
+            editBioButton.visibility = View.GONE
         } else {
-            // Handle the case where the user is not logged in
-            Toast.makeText(requireContext(), "User is not logged in", Toast.LENGTH_SHORT).show()
+            // Show the TextView and hide the EditText
+            bioEditText.visibility = View.GONE
+            bioTextView.visibility = View.VISIBLE
+
+            // Change button text to "Edit"
+            saveBioButton.visibility = View.GONE
+            editBioButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun saveBio() {
+        val newBio = bioEditText.text.toString()
+        if (newBio.isNotEmpty()) {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId != null) {
+                val firestore = FirebaseFirestore.getInstance()
+                firestore.collection("users").document(userId)
+                    .update("bio", newBio)
+                    .addOnSuccessListener {
+                        // Update the UI with the new bio
+                        bioTextView.text = newBio
+                        toggleBioEditMode(false)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("ProfileFragment", "Error saving bio: ${e.message}")
+                        Toast.makeText(requireContext(), "Failed to save bio", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        } else {
+            Toast.makeText(requireContext(), "Bio cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
 }
+
+
