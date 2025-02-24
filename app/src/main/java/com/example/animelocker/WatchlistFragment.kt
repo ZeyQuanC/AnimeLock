@@ -1,19 +1,21 @@
 package com.example.animelocker
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class WatchlistFragment : Fragment() {
 
     private lateinit var adapter: AnimeAdapter
-    private lateinit var watchlist: List<Anime> // Assuming Anime is the model class
+    private var watchlist: List<Anime> = emptyList() // List of Anime to display
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,40 +27,90 @@ class WatchlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize your watchlist (replace with your actual data loading logic)
-        watchlist = loadWatchlistData() // This should return a list of Anime objects
+        // Fetch the watchlist from Firestore
+        loadWatchlistData()
 
-        // Set up the RecyclerView and Adapter
+        // Set up RecyclerView and Adapter
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_watchlist)
-        adapter = AnimeAdapter(watchlist) { anime -> onAnimeClick(anime) } // Pass click listener
+        adapter = AnimeAdapter(watchlist, { anime -> onAnimeClick(anime) }, { anime -> removeAnimeFromWatchlist(anime) })
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        setupFilterButtons()  // Set up your filter buttons here
+        // Set up filter buttons
+        setupFilterButtons(view)
     }
 
     private fun onAnimeClick(anime: Anime) {
-        // Handle the click event, for example, navigate to details screen or show a toast
+        // Add anime to the watchlist
+        addAnimeToWatchlist(anime)
+        // Handle the anime click event
         Toast.makeText(requireContext(), "Clicked: ${anime.title}", Toast.LENGTH_SHORT).show()
     }
 
-    private fun loadWatchlistData(): List<Anime> {
-        // Load or fetch your anime watchlist data here
-        // Replace this with your actual data fetching logic
-        return listOf(
-            Anime(1,"Naruto", "A story about ninjas", "A story about ninjas","Watching"),
-            Anime(2,"Attack on Titan", "Giant humanoid titans","Giant humanoid titans", "Completed"),
-            Anime(3,"One Piece", "Pirate adventure","Pirate adventure", "Planned"),
-            Anime(4,"Death Note", "Notebook of death", "Notebook of death","Dropped")
-        )
+    // Fetch the watchlist data from Firestore
+    private fun loadWatchlistData() {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users").document(userId)
+            .collection("watchlist")
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Toast.makeText(requireContext(), "Failed to fetch watchlist", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+
+                if (snapshots != null) {
+                    val updatedWatchlist = snapshots.documents.map { it.toObject(Anime::class.java)!! }
+                    watchlist = updatedWatchlist
+                    adapter.updateData(watchlist)
+                }
+            }
     }
 
-    private fun setupFilterButtons() {
-        val buttonFilterAll = view?.findViewById<Button>(R.id.button_filter_all)
-        val buttonFilterWatching = view?.findViewById<Button>(R.id.button_filter_watching)
-        val buttonFilterCompleted = view?.findViewById<Button>(R.id.button_filter_completed)
-        val buttonFilterPlanned = view?.findViewById<Button>(R.id.button_filter_planned)
-        val buttonFilterDropped = view?.findViewById<Button>(R.id.button_filter_dropped)
+    // Add an anime to Firestore
+    private fun addAnimeToWatchlist(anime: Anime) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").document(userId)
+            .collection("watchlist").document(anime.id.toString())
+            .set(anime)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "${anime.title} added to watchlist", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Failed to add anime", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Remove an anime from Firestore
+    private fun removeAnimeFromWatchlist(anime: Anime) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").document(userId)
+            .collection("watchlist").document(anime.id.toString())
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "${anime.title} removed", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Failed to remove anime", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Set up filter buttons to filter the watchlist by status
+    private fun setupFilterButtons(view: View) {
+        val buttonFilterAll = view.findViewById<Button>(R.id.button_filter_all)
+        val buttonFilterWatching = view.findViewById<Button>(R.id.button_filter_watching)
+        val buttonFilterCompleted = view.findViewById<Button>(R.id.button_filter_completed)
+        val buttonFilterPlanned = view.findViewById<Button>(R.id.button_filter_planned)
+        val buttonFilterDropped = view.findViewById<Button>(R.id.button_filter_dropped)
 
         buttonFilterAll?.setOnClickListener {
             adapter.updateData(watchlist)

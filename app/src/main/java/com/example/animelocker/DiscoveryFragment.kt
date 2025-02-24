@@ -85,15 +85,22 @@ class DiscoveryFragment : Fragment() {
                         featuredAnimeList = featuredAnimeResponse.data.map { animeResponse ->
                             Anime(
                                 id = animeResponse.node.id,
-                                title = animeResponse.node.title ?: "Untitled",
-                                imageUrl = animeResponse.node.main_picture.medium ?: "",
-                                description = animeResponse.node.synopsis ?: "No description available"
+                                title = animeResponse.node.title,
+                                imageUrl = animeResponse.node.main_picture.medium,
+                                description = animeResponse.node.synopsis
                             )
                         }.toMutableList()
 
-                        recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList) { anime ->
-                            // Handle click event for featured anime
-                        }
+                        recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList,
+                            { anime ->
+                                // Handle click event for featured anime
+                                Log.d("Anime Clicked", "Clicked on: ${anime.title}")
+                            },
+                            { anime ->
+                                // Handle long-click event for featured anime
+                                Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
+                            })
+
                     } else {
                         Log.e("API Error", "Response body is null")
                     }
@@ -151,15 +158,22 @@ class DiscoveryFragment : Fragment() {
                         val animeNode = animeRank.node  // Access the node property
                         Anime(
                             id = animeNode.id,  // Get id from animeNode
-                            title = animeNode.title ?: "Untitled",  // Get title from animeNode
-                            imageUrl = animeNode.main_picture.medium ?: "",  // Get medium image URL from main_picture
-                            description = animeNode.synopsis ?: "No description available"  // Get synopsis from animeNode
+                            title = animeNode.title,  // Get title from animeNode
+                            imageUrl = animeNode.main_picture.medium,  // Get medium image URL from main_picture
+                            description = animeNode.synopsis  // Get synopsis from animeNode
                         )
                     }?.toMutableList() ?: mutableListOf()
 
-                    recyclerViewTrending.adapter = AnimeAdapter(trendingAnimeList) { anime ->
-                        // Handle click event for trending anime
-                    }
+                    recyclerViewTrending.adapter = AnimeAdapter(trendingAnimeList,
+                        { anime ->
+                            // Handle click event for trending anime
+                            Log.d("Anime Clicked", "Clicked on: ${anime.title}")
+                        },
+                        { anime ->
+                            // Handle long-click event for trending anime
+                            Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
+                        })
+
                 }
             }
 
@@ -184,15 +198,21 @@ class DiscoveryFragment : Fragment() {
                         val animeNode = animeRank.node
                         Anime(
                             id = animeNode.id,
-                            title = animeNode.title ?: "Untitled",
-                            imageUrl = animeNode.main_picture?.medium ?: "",
-                            description = animeNode.synopsis ?: "No description available"
+                            title = animeNode.title,
+                            imageUrl = animeNode.main_picture.medium,
+                            description = animeNode.synopsis,
+                            status =  "Unknown" // Ensure 'status' is handled
                         )
                     }?.toMutableList() ?: mutableListOf()
 
-                    recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList) { anime ->
+                    recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList, { anime ->
                         // Handle click event for new releases
-                    }
+                        Log.d("Anime Clicked", "Clicked on: ${anime.title}")
+                    }, { anime ->
+                        // Handle long-click event for new releases
+                        Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
+                    })
+
                 }
             }
 
@@ -208,13 +228,25 @@ class DiscoveryFragment : Fragment() {
         // Implement search logic here
         if (query.isNotEmpty()) {
             val filteredList = featuredAnimeList.filter { it.title.contains(query, ignoreCase = true) }
-            recyclerViewFeatured.adapter = AnimeAdapter(filteredList) { anime ->
-                // Handle click event for filtered results
-            }
+            recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList, { anime ->
+                // Handle click event for new releases
+                Log.d("Anime Clicked", "Clicked on: ${anime.title}")
+            }, { anime ->
+                // Handle long-click event for new releases
+                Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
+            })
+
         } else {
-            recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList) { anime ->
-                // Handle click event for featured anime
-            }
+            recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList,
+                { anime ->
+                    // Handle click event for featured anime
+                    Log.d("Click", "Clicked on: ${anime.title}")
+                },
+                { anime ->
+                    // Handle long-click event for featured anime
+                    Log.d("Long-click", "Long-clicked on: ${anime.title}")
+                })
+
         }
     }
 }

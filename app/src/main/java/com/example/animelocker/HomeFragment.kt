@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
                     val animeList = parseAnimeResponse(animeResponses)
                     Log.d("Parsed Anime List", animeList.joinToString { "ID: ${it.id}, Title: ${it.title}" })
 
-                    popularAdapter = AnimeAdapter(animeList) { anime -> onAnimeClicked(anime) }
+                    popularAdapter = AnimeAdapter(animeList, { anime -> onAnimeClicked(anime) }, { anime -> onAnimeLongClicked(anime) })
                     popularRecyclerView.adapter = popularAdapter
                     Log.d("Adapter", "Adapter updated with ${animeList.size} items")
                 } else {
@@ -142,7 +142,11 @@ class HomeFragment : Fragment() {
                     val recommendedList = parseSuggestionsResponse(animeSuggestions)
                     Log.d("Parsed Recommendations List", recommendedList.joinToString { "ID: ${it.id}, Title: ${it.title}" })
 
-                    recommendedAdapter = AnimeAdapter(recommendedList) { anime -> onAnimeClicked(anime) }
+                    // Setup the adapter with both click and long-click handlers
+                    recommendedAdapter = AnimeAdapter(recommendedList,
+                        { anime -> onAnimeClicked(anime) },  // onAnimeClick handler
+                        { anime -> onAnimeLongClicked(anime) } // onAnimeLongClick handler
+                    )
                     recommendedRecyclerView.adapter = recommendedAdapter
                     Log.d("Adapter", "Recommended adapter updated with ${recommendedList.size} items")
                 } else {
@@ -186,9 +190,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun onAnimeClicked(anime: Anime) {
-        Log.d("HomeFragment", "Anime clicked: ${anime.title}")
-        // Navigate to the detailed view for the selected anime
-        // findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+    // Handle click event
+    fun onAnimeClicked(anime: Anime) {
+        // Your click event handling logic
+        Log.d("Click", "Clicked on: ${anime.title}")
     }
+
+    // Handle long-click event
+    fun onAnimeLongClicked(anime: Anime) {
+        // Your long-click event handling logic
+        Log.d("Long-click", "Long-clicked on: ${anime.title}")
+    }
+
 }

@@ -6,6 +6,6 @@ data class Anime(
     val title: String,
     val imageUrl: String,
     val description: String,
-    val status: String? = null// Make sure this is defined if you want to use it
+    val status: String = "Unknown"// Make sure this is defined if you want to use it
 )
 
