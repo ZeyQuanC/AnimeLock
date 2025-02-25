@@ -158,6 +158,10 @@
             android:id="@+id/action_discoveryFragment_to_communityFragment"
             app:destination="@id/communityFragment" />
 
+        <action
+            android:id="@+id/action_discoveryFragment_to_animeDetailFragment"
+            app:destination="@id/animeDetailFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"
@@ -188,6 +192,10 @@
         <action
             android:id="@+id/action_animeDetailFragment_to_communityFragment"
             app:destination="@id/communityFragment" />
+
+        <action
+            android:id="@+id/action_animeDetailFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
 
     </fragment>
 

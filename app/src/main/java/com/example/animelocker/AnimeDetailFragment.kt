@@ -64,6 +64,18 @@ class AnimeDetailFragment : Fragment() {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_watchlistFragment)
                         return@setOnNavigationItemSelectedListener true
                     }
+                    R.id.navigation_Discovery -> {
+                        findNavController().navigate(R.id.action_animeDetailFragment_to_discoveryFragment)
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_community -> {
+                        findNavController().navigate(R.id.action_animeDetailFragment_to_communityFragment)
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                    R.id.navigation_events -> {
+                        findNavController().navigate(R.id.action_animeDetailFragment_to_eventsFragment)
+                        return@setOnNavigationItemSelectedListener true
+                    }
                     else -> false
                 }
             }

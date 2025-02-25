@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -91,15 +92,12 @@ class DiscoveryFragment : Fragment() {
                             )
                         }.toMutableList()
 
+                        // Inside fetchFeaturedAnime or wherever you're initializing the RecyclerView
                         recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList,
-                            { anime ->
-                                // Handle click event for featured anime
-                                Log.d("Anime Clicked", "Clicked on: ${anime.title}")
-                            },
-                            { anime ->
-                                // Handle long-click event for featured anime
-                                Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
-                            })
+                            { anime -> onAnimeClicked(anime) }, // Handle click event for featured anime
+                            { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
+                        )
+
 
                     } else {
                         Log.e("API Error", "Response body is null")
@@ -165,15 +163,9 @@ class DiscoveryFragment : Fragment() {
                     }?.toMutableList() ?: mutableListOf()
 
                     recyclerViewTrending.adapter = AnimeAdapter(trendingAnimeList,
-                        { anime ->
-                            // Handle click event for trending anime
-                            Log.d("Anime Clicked", "Clicked on: ${anime.title}")
-                        },
-                        { anime ->
-                            // Handle long-click event for trending anime
-                            Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
-                        })
-
+                        { anime -> onAnimeClicked(anime) }, // Handle click event for featured anime
+                        { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
+                    )
                 }
             }
 
@@ -205,13 +197,10 @@ class DiscoveryFragment : Fragment() {
                         )
                     }?.toMutableList() ?: mutableListOf()
 
-                    recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList, { anime ->
-                        // Handle click event for new releases
-                        Log.d("Anime Clicked", "Clicked on: ${anime.title}")
-                    }, { anime ->
-                        // Handle long-click event for new releases
-                        Log.d("Anime Long Clicked", "Long-clicked on: ${anime.title}")
-                    })
+                    recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList,
+                        { anime -> onAnimeClicked(anime) }, // Handle click event for featured anime
+                        { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
+                    )
 
                 }
             }
@@ -238,16 +227,30 @@ class DiscoveryFragment : Fragment() {
 
         } else {
             recyclerViewFeatured.adapter = AnimeAdapter(featuredAnimeList,
-                { anime ->
-                    // Handle click event for featured anime
-                    Log.d("Click", "Clicked on: ${anime.title}")
-                },
-                { anime ->
-                    // Handle long-click event for featured anime
-                    Log.d("Long-click", "Long-clicked on: ${anime.title}")
-                })
+                { anime -> onAnimeClicked(anime) }, // Handle click event for featured anime
+                { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
+            )
 
         }
     }
+
+    // Handle click event
+    fun onAnimeClicked(anime: Anime) {
+        val bundle = Bundle().apply {
+            putParcelable("anime", anime)
+        }
+
+        findNavController().navigate(R.id.action_discoveryFragment_to_animeDetailFragment, bundle)
+
+        Log.d("Click", "Clicked on: ${anime.title}")
+    }
+
+
+    // Handle long-click event
+    fun onAnimeLongClicked(anime: Anime) {
+        // Your long-click event handling logic
+        Log.d("Long-click", "Long-clicked on: ${anime.title}")
+    }
+
 }
 
