@@ -59,4 +59,8 @@
     <string name="edit_bio_hint">Write something about yourself...</string>
     <string name="save">Save</string>
     <string name="status">Status:</string>
+    <string name="anime_title">Anime Title</string>
+    <string name="anime_description">Anime Description</string>
+    <string name="statuss">Status</string>
+    <string name="add_to_watchlist">Add to Watchlist</string>
 </resources>

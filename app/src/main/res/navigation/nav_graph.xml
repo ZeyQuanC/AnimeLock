@@ -84,6 +84,10 @@
             android:id="@+id/action_homeFragment_to_ProfileFragment"
             app:destination="@id/ProfileFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_animeDetailFragment"
+            app:destination="@id/animeDetailFragment" />
+
     </fragment>
 
     <fragment
@@ -162,6 +166,28 @@
         tools:layout="@layout/fragment_events" >
 
 
+
+    </fragment>
+    <fragment
+        android:id="@+id/animeDetailFragment"
+        android:name="com.example.animelocker.AnimeDetailFragment"
+        android:label="AnimeDetailFragment" >
+
+        <action
+            android:id="@+id/action_animeDetailFragment_to_ProfileFragment"
+            app:destination="@id/ProfileFragment" />
+        <action
+            android:id="@+id/action_animeDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_animeDetailFragment_to_watchlistFragment"
+            app:destination="@id/watchlistFragment" />
+        <action
+            android:id="@+id/action_animeDetailFragment_to_discoveryFragment"
+            app:destination="@id/discoveryFragment" />
+        <action
+            android:id="@+id/action_animeDetailFragment_to_communityFragment"
+            app:destination="@id/communityFragment" />
 
     </fragment>
 

@@ -192,9 +192,15 @@ class HomeFragment : Fragment() {
 
     // Handle click event
     fun onAnimeClicked(anime: Anime) {
-        // Your click event handling logic
+        val bundle = Bundle().apply {
+            putParcelable("anime", anime)
+        }
+
+        findNavController().navigate(R.id.action_homeFragment_to_animeDetailFragment, bundle)
+
         Log.d("Click", "Clicked on: ${anime.title}")
     }
+
 
     // Handle long-click event
     fun onAnimeLongClicked(anime: Anime) {

@@ -1,11 +1,17 @@
 package com.example.animelocker
 
-// Anime.kt
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Anime(
-    val id: Int,
-    val title: String,
-    val imageUrl: String,
-    val description: String,
-    val status: String = "Unknown"// Make sure this is defined if you want to use it
-)
+    var id: Int = 0,                 // Default value required
+    var title: String = "",
+    var description: String = "",
+    var imageUrl: String? = null,
+    var status: String = "Unknown"
+) : Parcelable {
+    // Firestore requires an empty constructor
+    constructor() : this(0, "", "", null, "Unknown")
+}
 
