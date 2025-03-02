@@ -25,7 +25,6 @@ class EventsFragment : Fragment() {
     private lateinit var startDateAdapter: StartDateAdapter
     private var startDateList: MutableList<StartDate> = mutableListOf()
     private lateinit var noStartDateMessage: TextView // TextView to display "No anime started on this date"
-    private lateinit var secondRecyclerView: RecyclerView
 
 
     override fun onCreateView(
@@ -75,17 +74,20 @@ class EventsFragment : Fragment() {
 
             watchlistRef.get()
                 .addOnSuccessListener { documents ->
-                    val startDateList = mutableListOf<StartDate>() // Use StartDate objects
+                    val startDates = mutableListOf<StartDate>() // List to store StartDate objects
                     for (document in documents) {
-                        // Assuming you have a "startDate" field in the Firestore document
+                        // Assuming you have "startDate" and "title" fields in the Firestore document
                         val startDate = document.getString("startDate")
+                        val title = document.getString("title") // Fetch title from Firestore
                         startDate?.let {
-                            startDateList.add(StartDate(it)) // Add StartDate object to the list
+                            title?.let {
+                                startDates.add(StartDate(title = it, date = startDate)) // Add StartDate object to the list
+                            }
                         }
                     }
-                    Log.d("EventsFragment", "fetchAnimeStartDates: Retrieved start dates: $startDateList")
+                    Log.d("EventsFragment", "fetchAnimeStartDates: Retrieved start dates and titles: $startDates")
 
-                    if (startDateList.isEmpty()) {
+                    if (startDates.isEmpty()) {
                         Log.d("EventsFragment", "fetchAnimeStartDates: No start dates found.")
                         noStartDateMessage.visibility = View.VISIBLE
                         recyclerViewStartDates.visibility = View.GONE
@@ -94,11 +96,11 @@ class EventsFragment : Fragment() {
                         noStartDateMessage.visibility = View.GONE
                         recyclerViewStartDates.visibility = View.VISIBLE
 
-                        // Pass the list of StartDate objects to the adapter
-                        startDateAdapter = StartDateAdapter(startDateList)
+                        // Pass the list of StartDate objects to your adapter
+                        startDateAdapter = StartDateAdapter(startDates)
                         recyclerViewStartDates.adapter = startDateAdapter
                     }
-                    Log.d("EventsFragment", "Fetched start dates: $startDateList")
+                    Log.d("EventsFragment", "Fetched start dates and titles: $startDates")
                 }
                 .addOnFailureListener { e ->
                     Log.e("Firestore", "fetchAnimeStartDates: Error getting documents: ", e)
@@ -107,6 +109,7 @@ class EventsFragment : Fragment() {
             Log.d("EventsFragment", "fetchAnimeStartDates: User not logged in.")
         }
     }
+
 
 
     // Add the date to the CalendarView
