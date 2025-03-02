@@ -63,4 +63,9 @@
     <string name="anime_description">Anime Description</string>
     <string name="statuss">Status</string>
     <string name="add_to_watchlist">Add to Watchlist</string>
+    <string name="statusdropdown">Status</string>
+    <string name="episodes_watched">Episodes Watched: %d</string>
+    <string name="rating_1_10_stars">Rating (1–8 stars)</string>
+    <string name="select_start_date">Select Start Date</string>
+    <string name="savetowatchlist">Save</string>
 </resources>

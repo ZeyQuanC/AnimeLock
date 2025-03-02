@@ -192,10 +192,21 @@
         <action
             android:id="@+id/action_animeDetailFragment_to_communityFragment"
             app:destination="@id/communityFragment" />
-
         <action
             android:id="@+id/action_animeDetailFragment_to_eventsFragment"
             app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_animeDetailFragment_to_addToWatchlistFragment"
+            app:destination="@id/addToWatchlistFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addToWatchlistFragment"
+        android:name="com.example.animelocker.AddToWatchlistFragment"
+        android:label="Add to Watchlist"
+        tools:layout="@layout/fragment_add_to_watchlist" >
+
 
     </fragment>
 
