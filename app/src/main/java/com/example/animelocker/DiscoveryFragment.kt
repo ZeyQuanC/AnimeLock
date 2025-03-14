@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.compose.animation.core.Spring
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,14 +20,14 @@ import retrofit2.Response
 class DiscoveryFragment : Fragment() {
 
     private lateinit var recyclerViewFeatured: RecyclerView
-    private lateinit var recyclerViewGenres: RecyclerView
+    private lateinit var recyclerViewSeasonal: RecyclerView
     private lateinit var recyclerViewTrending: RecyclerView
     private lateinit var recyclerViewNewReleases: RecyclerView
-
+    private lateinit var seasonalAnimeAdapter: AnimeAdapter
     private var featuredAnimeList = mutableListOf<Anime>()
-    private var genreList = mutableListOf<Genre>()
     private var trendingAnimeList = mutableListOf<Anime>()
     private var newReleasesList = mutableListOf<Anime>()
+    private var seasonalAnimeList = mutableListOf<Anime>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,19 +42,19 @@ class DiscoveryFragment : Fragment() {
 
         // Find views by ID
         recyclerViewFeatured = view.findViewById(R.id.recyclerViewFeatured)
-        recyclerViewGenres = view.findViewById(R.id.recyclerViewGenres)
+        recyclerViewSeasonal = view.findViewById(R.id.recyclerViewSeasonal)
         recyclerViewTrending = view.findViewById(R.id.recyclerViewTrending)
         recyclerViewNewReleases = view.findViewById(R.id.recyclerViewNewReleases)
 
         // Initialize your RecyclerViews with adapters
         recyclerViewFeatured.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewGenres.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewSeasonal.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewTrending.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewNewReleases.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         // Load anime data from the API
         fetchFeaturedAnime()
-        fetchGenres(30230)
+        fetchSeasonalAnime(2025, "spring")
         fetchTrendingAnime()
         fetchNewReleases()
 
@@ -115,32 +116,51 @@ class DiscoveryFragment : Fragment() {
 
 
 
-    private fun fetchGenres(animeId: Int) {
+    private fun fetchSeasonalAnime(year: Int, season: String) {
         val apiService = MyAnimeListClient.getApiService()
-        val call = apiService.getAnimeGenres(animeId) // Call the method with the anime ID
+        val call = apiService.getSeasonalAnime(year, season)
 
-        call.enqueue(object : Callback<GenresResponse> {
-            override fun onResponse(call: Call<GenresResponse>, response: Response<GenresResponse>) {
+        Log.d("API Call", "Fetching seasonal anime from: $call")
+
+        call.enqueue(object : Callback<SeasonalAnimeResponse> {
+            override fun onResponse(call: Call<SeasonalAnimeResponse>, response: Response<SeasonalAnimeResponse>) {
+                Log.d("API Response", "Response code: ${response.code()}, Response body: ${response.body()}")
+
                 if (response.isSuccessful) {
-                    genreList = response.body()?.data?.map { genreResponse ->
-                        Genre(name = genreResponse.name)
-                    }?.toMutableList() ?: mutableListOf()
+                    val seasonalAnimeResponse = response.body()
+                    if (seasonalAnimeResponse != null) {
+                        Log.d("API Response", "Seasonal Anime: $seasonalAnimeResponse")
 
-                    recyclerViewGenres.adapter = GenreAdapter(genreList) { genre ->
-                        // Handle click event for genre
+                        seasonalAnimeList = seasonalAnimeResponse.data.map { seasonalAnimeResponse ->
+                            Anime(
+                                id = seasonalAnimeResponse.node.id,
+                                title = seasonalAnimeResponse.node.title,
+                                imageUrl = seasonalAnimeResponse.node.main_picture?.medium,
+                            )
+                        }.toMutableList()
+
+                        // Set up the adapter with the fetched data
+                        recyclerViewSeasonal.adapter = AnimeAdapter(seasonalAnimeList,
+                            { anime -> onAnimeClicked(anime) }, // Handle click event for seasonal anime
+                            { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
+                        )
+                    } else {
+                        Log.e("API Error", "Response body is null")
                     }
                 } else {
-                    // Handle non-successful response
                     Log.e("API Error", "Response not successful: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<GenresResponse>, t: Throwable) {
-                // Handle error
-                Log.e("API Failure", "Failed to fetch genres: ${t.message}")
+            override fun onFailure(call: Call<SeasonalAnimeResponse>, t: Throwable) {
+                Log.e("API Failure", "Failed to fetch seasonal anime: ${t.message}")
             }
         })
     }
+
+
+
+
 
 
 

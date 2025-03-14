@@ -24,11 +24,13 @@ interface MyAnimeListApi {
         @Query("fields") fields: String = "title,main_picture,synopsis"
     ): Call<AnimeRankingResponse>
 
-    @GET("anime/{id}")
-    fun getAnimeGenres(
-        @Path("id") animeId: Int,
-        @Query("fields") fields: String = "genres"
-    ): Call<GenresResponse>
+    @GET("anime/season/{year}/{season}")
+    fun getSeasonalAnime(
+        @Path("year") year: Int,
+        @Path("season") season: String,
+        @Query("fields") fields: String = "id,title,main_picture"
+    ): Call<SeasonalAnimeResponse>
+
 
     @GET("anime/suggestions?limit=20")
     fun getAnimeSuggestions(): Call<AnimeSuggestionsResponse>

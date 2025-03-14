@@ -72,4 +72,5 @@
     <string name="anime_title_date">Anime Title</string>
     <string name="no_anime_started_on_this_date">No anime started on this date.</string>
     <string name="started_on">I started on:</string>
+    <string name="Seasonal">Seasonal</string>
 </resources>
