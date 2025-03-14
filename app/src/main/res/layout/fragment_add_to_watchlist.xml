@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="0dp"
+    android:gravity="center_horizontal">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/user_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/user_button"
+                android:src="@drawable/outline_doorbell_24"
+                android:padding="8dp"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/app_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/animelockh"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:gravity="center" />
+
+            <ImageButton
+                android:id="@+id/notification_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notification_button"
+                android:src="@drawable/baseline_alarm_24"
+                android:padding="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="10dp"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+    <!-- Status Dropdown -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/status_dropdown_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/statusdropdown"
+        app:boxBackgroundMode="filled"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="16dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/status_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Progress Input (Slider) -->
+    <TextView
+        android:id="@+id/progress_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/episodes_watched"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/progress_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:value="0"
+        android:valueFrom="0"
+        android:valueTo="12"
+        android:stepSize="1"
+        app:labelBehavior="gone"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Rating Input (Stars) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating_1_10_stars"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="8"
+        android:rating="0"
+        android:stepSize="1"
+        android:isIndicator="false"
+        android:scaleX="0.8"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Date Picker for Start Date -->
+    <TextView
+        android:id="@+id/tv_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/select_start_date"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:background="?android:attr/selectableItemBackground"
+        android:textColor="#000"/>
+
+    <!-- Save Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/savetowatchlist"
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="15dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>
+
+
