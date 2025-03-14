@@ -50,7 +50,7 @@
     <string name="event_time">Event Time</string>
     <string name="events">Events</string>
     <string name="Events">Events</string>
-    <string name="Eventss">Events</string>
+    <string name="Eventss">Events:</string>
     <string name="mal_client_id">ccf5d159aca09eaaed5c23f05fdd29f4</string>
     <string name="usernameprofile">Username</string>
     <string name="userBio">This is the user\'s bio.</string>
@@ -71,5 +71,5 @@
     <string name="start_date">Start Date</string>
     <string name="anime_title_date">Anime Title</string>
     <string name="no_anime_started_on_this_date">No anime started on this date.</string>
-    <string name="started_on">Started on</string>
+    <string name="started_on">I started on:</string>
 </resources>

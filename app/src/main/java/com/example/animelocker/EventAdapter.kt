@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class EventAdapter(private val eventList: List<Event>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private var events: List<Event>) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
@@ -14,23 +14,27 @@ class EventAdapter(private val eventList: List<Event>) : RecyclerView.Adapter<Ev
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = eventList[position]
-        holder.bind(event)
+        val event = events[position]
+        holder.titleTextView.text = event.title
+
+        // Format the start date
+        val startDate = event.startDate
+        val formattedDate = "${startDate.year ?: "Unknown Year"}-${startDate.month ?: "Unknown Month"}-${startDate.day ?: "Unknown Day"}"
+        holder.startDateTextView.text = formattedDate
     }
 
-    override fun getItemCount(): Int {
-        return eventList.size
+    override fun getItemCount() = events.size
+
+    fun updateEvents(newEvents: List<Event>) {
+        this.events = newEvents
+        notifyDataSetChanged()
     }
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val eventTitle: TextView = itemView.findViewById(R.id.eventName)
-        private val eventDate: TextView = itemView.findViewById(R.id.eventTime)
-
-        fun bind(event: Event) {
-            eventTitle.text = event.eventName // Assuming 'Event' class has 'title' and 'date' properties
-            eventDate.text = event.eventTime
-        }
+        val titleTextView: TextView = itemView.findViewById(R.id.eventName)
+        val startDateTextView: TextView = itemView.findViewById(R.id.eventStartDate)
     }
-
 }
+
+
 
