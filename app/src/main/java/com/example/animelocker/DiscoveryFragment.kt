@@ -23,7 +23,6 @@ class DiscoveryFragment : Fragment() {
     private lateinit var recyclerViewSeasonal: RecyclerView
     private lateinit var recyclerViewTrending: RecyclerView
     private lateinit var recyclerViewNewReleases: RecyclerView
-    private lateinit var seasonalAnimeAdapter: AnimeAdapter
     private var featuredAnimeList = mutableListOf<Anime>()
     private var trendingAnimeList = mutableListOf<Anime>()
     private var newReleasesList = mutableListOf<Anime>()

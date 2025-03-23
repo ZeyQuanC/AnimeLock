@@ -2,13 +2,12 @@ package com.example.animelocker
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -122,9 +121,15 @@ class HomeFragment : Fragment() {
 
     private fun fetchRecommendedAnime() {
         val apiService = MyAnimeListClient.getApiService()
-        Log.d("API Request", "Fetching anime recommendations with limit 20")
 
-        val call = apiService.getAnimeSuggestions() // Call the API endpoint for recommendations
+        Log.d("API Request", "Fetching anime recommendations with limit 10")
+
+        // Create the Authorization header with Bearer token
+        val authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFmOTA4MjdlMjEzNDNlNGNmZjRjNzA2MzZlYzQ3YjdmOWFiMGE0Mjc5NzU3MzMwMDJiNDkwMzM4ZDI1M2UwMGE2Y2Q2MmY1ZWE5MzBjZTAxIn0.eyJhdWQiOiJjY2Y1ZDE1OWFjYTA5ZWFhZWQ1YzIzZjA1ZmRkMjlmNCIsImp0aSI6ImFmOTA4MjdlMjEzNDNlNGNmZjRjNzA2MzZlYzQ3YjdmOWFiMGE0Mjc5NzU3MzMwMDJiNDkwMzM4ZDI1M2UwMGE2Y2Q2MmY1ZWE5MzBjZTAxIiwiaWF0IjoxNzQyNzQzNDY0LCJuYmYiOjE3NDI3NDM0NjQsImV4cCI6MTc0NTQyMTg2NCwic3ViIjoiMTc0NjA5NzAiLCJzY29wZXMiOltdfQ.KezasgRvzWj-8Unbl08HUfmEOvvuvWn1WhEd1xuy-X-3vyDCsJh6MQv8XtiZJDAckTiblAEdpcjOXC9vnU7Yet_jBtIiQWWGX-US322uKokRaxpcEir2f8dKl3smPVUraBBhii2Co0b7HLsAIr5pIElIjRrKGq1X20h_Y32gb_mh6y6nCjblCYeUJUpYd4h9waIj6ipiWm4oC04P2JPaINN0cJzXA52NNHNzXxGL_ABUH2xAhN7l1wlKhfWDoD39Y5USLM-9bylajs_OK6QIqyLUQse0vCTn_EZnXMXEMSj6hmrudm6ZbThFCWNzsmOhm8j5VpF9UjTLP0cGiLB_Rg\n".trim()
+        Log.d("Authorization Token", authHeader)
+
+        // Call the API endpoint for recommendations
+        val call = apiService.getAnimeSuggestions(authHeader)
 
         call.enqueue(object : Callback<AnimeSuggestionsResponse> {
             override fun onResponse(call: Call<AnimeSuggestionsResponse>, response: Response<AnimeSuggestionsResponse>) {
@@ -160,16 +165,19 @@ class HomeFragment : Fragment() {
         })
     }
 
+
+
+
     private fun parseAnimeResponse(animeResponses: List<AnimeRankingResponse.AnimeRank>): List<Anime> {
         Log.d("Parse Anime Response", "Converting ${animeResponses.size} AnimeRank objects to Anime objects")
         return animeResponses.mapNotNull { animeRank ->
             animeRank.node.main_picture?.let { mainPicture ->
-                Log.d("Anime Conversion", "Mapping AnimeRank to Anime: ID=${animeRank.node.id}, Title=${animeRank.node.title ?: "Unknown"}")
+                Log.d("Anime Conversion", "Mapping AnimeRank to Anime: ID=${animeRank.node.id}, Title=${animeRank.node.title}")
                 Anime(
                     id = animeRank.node.id,
-                    title = animeRank.node.title ?: "Untitled", // Default value for title
+                    title = animeRank.node.title, // Default value for title
                     imageUrl = mainPicture.medium,
-                    description = animeRank.node.synopsis ?: "No description available" // Assuming synopsis is available in AnimeNode
+                    description = animeRank.node.synopsis // Assuming synopsis is available in AnimeNode
                 )
             }
         }

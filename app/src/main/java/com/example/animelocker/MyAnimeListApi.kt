@@ -4,6 +4,7 @@ package com.example.animelocker
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -32,8 +33,11 @@ interface MyAnimeListApi {
     ): Call<SeasonalAnimeResponse>
 
 
-    @GET("anime/suggestions?limit=20")
-    fun getAnimeSuggestions(): Call<AnimeSuggestionsResponse>
+
+    @GET("anime/suggestions")
+    fun getAnimeSuggestions(@Header("Authorization") authHeader: String): Call<AnimeSuggestionsResponse>
+
+
 
 
 }
