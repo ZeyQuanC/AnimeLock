@@ -75,6 +75,12 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_ProfileFragment)
         }
 
+        val notificationButton = view.findViewById<ImageButton>(R.id.notification_button)
+        notificationButton.setOnClickListener {
+            Log.d("HomeFragment", "Notification button clicked")
+            findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
+        }
+
 
     }
 
@@ -86,7 +92,7 @@ class HomeFragment : Fragment() {
         val call = apiService.getAnimeRanking(
             rankingType = "bypopularity",
             limit = 50,
-            fields = "title, main_picture, synopsis" // Make sure to include synopsis if you use it
+            fields = "title, main_picture, synopsis, status" // Make sure to include synopsis if you use it
         )
 
         call.enqueue(object : Callback<AnimeRankingResponse> {

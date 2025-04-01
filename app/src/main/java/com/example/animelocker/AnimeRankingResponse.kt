@@ -12,7 +12,8 @@ data class AnimeRankingResponse(
         val id: Int,
         val title: String,
         val main_picture: MainPicture,
-        val synopsis: String
+        val synopsis: String,
+        val status: String
     )
 
     data class MainPicture(

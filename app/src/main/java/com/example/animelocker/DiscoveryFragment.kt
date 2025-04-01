@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.compose.animation.core.Spring
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -135,6 +134,7 @@ class DiscoveryFragment : Fragment() {
                                 id = seasonalAnimeResponse.node.id,
                                 title = seasonalAnimeResponse.node.title,
                                 imageUrl = seasonalAnimeResponse.node.main_picture?.medium,
+                                description = seasonalAnimeResponse.node.synopsis ?: "No description available" // Provide a default if null
                             )
                         }.toMutableList()
 
@@ -177,7 +177,8 @@ class DiscoveryFragment : Fragment() {
                             id = animeNode.id,  // Get id from animeNode
                             title = animeNode.title,  // Get title from animeNode
                             imageUrl = animeNode.main_picture.medium,  // Get medium image URL from main_picture
-                            description = animeNode.synopsis  // Get synopsis from animeNode
+                            description = animeNode.synopsis,  // Get synopsis from animeNode
+                            status = animeNode.status
                         )
                     }?.toMutableList() ?: mutableListOf()
 
