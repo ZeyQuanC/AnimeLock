@@ -73,4 +73,8 @@
     <string name="no_anime_started_on_this_date">No anime started on this date.</string>
     <string name="started_on">I started on:</string>
     <string name="Seasonal">Seasonal</string>
+    <string name="discussion_title">Discussion Title</string>
+    <string name="by_author">by %1$s</string>
+    <string name="posted_on_date">Posted on Date</string>
+
 </resources>

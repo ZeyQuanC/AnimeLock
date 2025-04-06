@@ -33,10 +33,14 @@ interface MyAnimeListApi {
     ): Call<SeasonalAnimeResponse>
 
 
-
     @GET("anime/suggestions")
     fun getAnimeSuggestions(@Header("Authorization") authHeader: String): Call<AnimeSuggestionsResponse>
 
+    @GET("forum/topics?q=anime&limit=30")
+    suspend fun getForumTopics(
+        @Query("q") query: String = "anime",
+        @Query("limit") limit: Int = 30
+    ): ForumResponse
 
 
 
