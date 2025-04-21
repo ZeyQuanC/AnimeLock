@@ -16,6 +16,7 @@ class AnimeAdapter(
     private val onAnimeLongClick: (Anime) -> Unit // Add this parameter
 ) : RecyclerView.Adapter<AnimeAdapter.AnimeViewHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnimeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_anime, parent, false)
         return AnimeViewHolder(view)
@@ -47,6 +48,7 @@ class AnimeAdapter(
             // Bind your Anime data to the views here
             title.text = anime.title
             status.text = anime.status
+
 
             // Load image with Glide
             Glide.with(itemView.context)

@@ -70,6 +70,7 @@ class CommunityFragment : Fragment() {
             try {
                 val query = if (selectedTopic == "all") "" else selectedTopic
                 val response = MyAnimeListClient.getApiService().getForumTopics(query)
+                Log.d("API_Response", response.toString())
 
                 discussions.clear()
                 discussions.addAll(response.data)

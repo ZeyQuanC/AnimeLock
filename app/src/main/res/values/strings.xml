@@ -74,7 +74,10 @@
     <string name="started_on">I started on:</string>
     <string name="Seasonal">Seasonal</string>
     <string name="discussion_title">Discussion Title</string>
-    <string name="by_author">by %1$s</string>
     <string name="posted_on_date">Posted on Date</string>
+    <string name="number_of_posts_0">Number of Posts: 0</string>
+    <string name="date">Date</string>
+    <string name="by_author">By: %s</string>
+    <string name="full_discussion">Full Discussion Content</string>
 
 </resources>

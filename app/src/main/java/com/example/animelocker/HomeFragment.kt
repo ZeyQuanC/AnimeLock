@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +39,7 @@ class HomeFragment : Fragment() {
 
         // Initialize RecyclerViews
         popularRecyclerView = view.findViewById(R.id.recycler_view_popular)
-        recentActivityRecyclerView = view.findViewById(R.id.recycler_view_recent_activity)
+        recentActivityRecyclerView = view.findViewById(R.id.recyclerViewRecentActivity)
         recommendedRecyclerView = view.findViewById(R.id.recycler_view_recommended)
 
         // Set layout managers for horizontal scrolling
@@ -80,6 +82,8 @@ class HomeFragment : Fragment() {
             Log.d("HomeFragment", "Notification button clicked")
             findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
         }
+
+        loadRecentActivity()
 
 
     }
@@ -124,6 +128,85 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+
+
+
+    // Assuming you have a Firestore collection for user watchlists and each document has fields like 'status', 'animeId', 'title', etc.
+    private fun loadRecentActivity() {
+        Log.d("RecentActivity", "loadRecentActivity() called")
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid == null) {
+            Log.w("RecentActivity", "User is not logged in or UID is null")
+            return
+        }
+
+        val userWatchlistRef = FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .collection("watchlist")
+
+        val query = userWatchlistRef.whereEqualTo("status", "Watching")
+
+        query.get()
+            .addOnSuccessListener { documents ->
+                Log.d("RecentActivity", "Firestore query succeeded, ${documents.size()} documents found")
+
+                for (doc in documents) {
+                    Log.d("RecentActivity", "Document data: ${doc.data}")
+                }
+
+                val recentActivityList = mutableListOf<Anime>()
+                for (document in documents) {
+                    val anime = document.toObject(Anime::class.java)
+                    recentActivityList.add(anime)
+                }
+
+                updateRecentActivityRecyclerView(recentActivityList)
+            }
+
+            .addOnFailureListener { exception ->
+                Log.e("Firestore", "Error getting documents: ", exception)
+            }
+    }
+
+
+
+
+    // This function is used to update the RecyclerView with the recent activity data
+    private fun updateRecentActivityRecyclerView(recentActivityList: List<Anime>) {
+        Log.d("RecentActivity", "Attempting to update recent activity RecyclerView")
+
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerViewRecentActivity)
+
+        if (recyclerView == null) {
+            Log.w("RecentActivity", "RecyclerView not found! Make sure the ID is correct and the view is inflated.")
+            return
+        }
+
+        Log.d("RecentActivity", "RecyclerView found, setting up adapter")
+
+        val adapter = AnimeAdapter(
+            recentActivityList,
+            onAnimeClick = { anime ->
+                Log.d("AnimeClick", "Clicked on ${anime.title}")
+            },
+            onAnimeLongClick = { anime ->
+                Log.d("AnimeLongClick", "Long-clicked on ${anime.title}")
+            }
+        )
+
+        // Set up the RecyclerView with a horizontal LinearLayoutManager
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+
+        Log.d("RecentActivity", "RecyclerView successfully updated with ${recentActivityList.size} items")
+    }
+
+
+
+
 
     private fun fetchRecommendedAnime() {
         val apiService = MyAnimeListClient.getApiService()
@@ -221,5 +304,8 @@ class HomeFragment : Fragment() {
         // Your long-click event handling logic
         Log.d("Long-click", "Long-clicked on: ${anime.title}")
     }
+
+
+
 
 }

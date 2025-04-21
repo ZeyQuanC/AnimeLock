@@ -5,43 +5,74 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp">
+    card_view:cardElevation="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
+        android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/discussion_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textViewAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/by_author"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="4dp" />
+            android:text="@string/by_author" />
 
         <TextView
             android:id="@+id/textViewDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/posted_on_date"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="2dp" />
+            android:text="@string/date" />
+
+        <!-- Expandable Section -->
+        <LinearLayout
+            android:id="@+id/expandableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewNumPosts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_posts_0" />
+
+            <TextView
+                android:id="@+id/textViewUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Link"
+                android:autoLink="web"
+                android:textColor="@android:color/holo_blue_dark" />
+
+            <TextView
+                android:id="@+id/textViewContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:padding="8dp" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
+
 
