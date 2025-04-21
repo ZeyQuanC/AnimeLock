@@ -44,6 +44,11 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <Spinner
+        android:id="@+id/spinnerTopicFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <!-- RecyclerView to display discussions -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDiscussions"
