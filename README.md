@@ -5,6 +5,9 @@
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
+1. [Phase 1](#Phase-1)
+2. [Phase 2](#Phase-2)
+3. [App Demo Video](#App-Demo-Video)
 
 ## Overview
 
@@ -49,14 +52,21 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
     - Read and contribute reviews and ratings from other users.
 7.  *Anime News Feed*:
     - Stay updated with the latest news and announcements in the anime industry.
-8.  *Friends & Following*:
-    - Connect with friends and see what they are watching to discover new shows.
+  
 
 **Optional Features**
 
-1. 
-3. 
+1. *Friends & Following*:
+    - Connect with friends and see what they are watching to discover new shows.
+2. *Dark Mode*:
+    - Switch between light and dark themes.
+3. *Random pick*:
+    - A "Suprise me" button that selects a random anime from your plan to watch when you can't decide.
+4.
+  
 
+
+ 
 ### 2. Screen Archetypes
 
 - Launch Screen
@@ -81,7 +91,7 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 - Community Screen
   - Users can communicate with eachother.
  
-- Planner/Calender Screen
+- Planner/Calendar Screen
 
 - Manga Screen
   - user can browse manga Featured, different Genres, Recently Updated, and Recommended for you.
@@ -89,7 +99,7 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 - Overview Screen
   - Shows user a more detailed view of anime or manga once clicked.
 
-- Save Screen
+- Add to watchlsit Screen
   - user can add/save anime or manga to watchlist (can back out of save).
 
 
@@ -134,10 +144,59 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 
 ## Wireframes
 
-<img src=".jpg" width=600>
+<img src="First Screens.png" width=600>
+<br>
+<img src="Second Screens.png" width=600>
+
+
+### Test cases 
+<img src="Test Cases.png" width=600>
+
+
+
+## Phase 1
+
+### 1. Timeline 
+<img src="timeline1.png" width=600>
+<img src="timeline2.png" width=600>
+
+### 2. Completed User Stories
+
+- Categorization For Watchlist
+- App Navigation System
+- Discussion Threads
+- Trending & Top-Rated Anime Lists
+- User Loing System
+- User Sign-Up System
+- Featured Anime Carousel with Auto-Scroll
+- Forgot Password Feature
+- Validate Bio input
+- Edit Profile Picure
+
+### 3. End of Phase Demo
+
+
 
 <br>
 
+
+
+## Phase 2
+
+### 1. Timeline
+<img src=".png" width=600>
+
+### 2. Completed User Stories
+
+
+
+
+
 ## App Demo Video
 
+*First Phase*:
+
+<br>
+
+*Second Phase*:
 
