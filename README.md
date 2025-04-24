@@ -5,7 +5,7 @@
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
-1. [Phase 1](#Phase1)
+1. [Phase 1](#Phase-1)
 
 ## Overview
 
