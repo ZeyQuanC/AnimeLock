@@ -55,9 +55,15 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 
 1. *Friends & Following*:
     - Connect with friends and see what they are watching to discover new shows.
+2. *Dark Mode*:
+    - Switch between light and dark themes.
+3. *Random pick*:
+    - A "Suprise me" button that selects a random anime from your plan to watch when you can't decide.
+4.
   
-2.  
 
+
+ 
 ### 2. Screen Archetypes
 
 - Launch Screen
