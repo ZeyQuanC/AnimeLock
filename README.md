@@ -150,8 +150,7 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 
 
 ### Test cases 
-
-<img src="Test cases.png" width=600>
+<img src="Test Cases.png" width=600>
 
 
 
