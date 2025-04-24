@@ -146,6 +146,40 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 <img src="Second Screens.png" width=600>
 
 
+## Phase 1
+
+### 1. Timeline 
+<img src=".png" width=600>
+<img src=".png" width=600>
+
+### 2. Completed User Stories
+
+- Categorization For Watchlist
+- App Navigation System
+- Discussion Threads
+- Trending & Top-Rated Anime Lists
+- User Loing System
+- User Sign-Up System
+- Featured Anime Carousel with Auto-Scroll
+- Forgot Password Feature
+- Validate Bio input
+- Edit Profile Picure
+
+
+<br>
+
+
+
+## Phase 2
+
+### 1. Timeline
+<img src=".png" width=600>
+
+### 2. Completed User Stories
+
+
+
+
 
 ## App Demo Video
 
