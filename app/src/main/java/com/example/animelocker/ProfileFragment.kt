@@ -48,6 +48,7 @@ class ProfileFragment : Fragment() {
         saveBioButton = view.findViewById(R.id.saveBioButton)
         bottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
+
         // Setup the button to toggle between edit mode and display mode for bio
         editBioButton.setOnClickListener {
             toggleBioEditMode(true)
@@ -61,7 +62,23 @@ class ProfileFragment : Fragment() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    findNavController().navigate(R.id.action_ProfileFragment_to_homeFragment)
+                    findNavController().navigate(R.id.homeFragment) // Navigate to Home
+                    true
+                }
+                R.id.navigation_watchlist -> {
+                    findNavController().navigate(R.id.watchlistFragment) // Navigate to Watchlist
+                    true
+                }
+                R.id.navigation_Discovery -> {
+                    findNavController().navigate(R.id.discoveryFragment)
+                    true
+                }
+                R.id.navigation_community -> {
+                    findNavController().navigate(R.id.communityFragment)
+                    true
+                }
+                R.id.navigation_events -> {
+                    findNavController().navigate(R.id.eventsFragment)
                     true
                 }
                 else -> false
