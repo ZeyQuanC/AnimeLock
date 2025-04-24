@@ -149,8 +149,8 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 ## Phase 1
 
 ### 1. Timeline 
-<img src=".png" width=600>
-<img src=".png" width=600>
+<img src="timeline1.png" width=600>
+<img src="timeline2.png" width=600>
 
 ### 2. Completed User Stories
 
@@ -164,6 +164,9 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 - Forgot Password Feature
 - Validate Bio input
 - Edit Profile Picure
+
+### 3. End of Phase Demo
+
 
 
 <br>
