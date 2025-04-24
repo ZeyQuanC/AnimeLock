@@ -22,7 +22,7 @@ interface MyAnimeListApi {
     // Adjust the endpoint as needed
     fun getFeaturedAnime(
         @Query("limit") limit: Int = 50,
-        @Query("fields") fields: String = "title,main_picture,synopsis"
+        @Query("fields") fields: String = "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes"
     ): Call<AnimeRankingResponse>
 
     @GET("anime/season/{year}/{season}")
@@ -34,7 +34,8 @@ interface MyAnimeListApi {
 
 
     @GET("anime/suggestions")
-    fun getAnimeSuggestions(@Header("Authorization") authHeader: String): Call<AnimeSuggestionsResponse>
+    fun getAnimeSuggestions(@Header("Authorization") authHeader: String
+    ): Call<AnimeSuggestionsResponse>
 
     @GET("forum/topics")
     suspend fun getForumTopics(
@@ -42,6 +43,11 @@ interface MyAnimeListApi {
         @Query("limit") limit: Int = 30
     ): ForumResponse
 
+    @GET("anime/{id}")
+    suspend fun getAnimeById(
+        @Path("id") id: Int,
+        @Query("fields") fields: String = "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes"
+    ): AnimeResponse
 
 
 

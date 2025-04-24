@@ -139,8 +139,13 @@ class AddToWatchlistFragment : Fragment() {
                 "status" to status,
                 "progress" to progress,
                 "rating" to rating,
-                "startDate" to startDate
+                "startDate" to startDate,
+                "endDate" to anime.end_date,
+                "mediaType" to anime.media_type,
+                "rank" to anime.rank,
+                "numEpisodes" to anime.num_episodes
             )
+
 
             // Add anime to Firestore
             watchlistRef.document(anime.id.toString()).set(animeMap)

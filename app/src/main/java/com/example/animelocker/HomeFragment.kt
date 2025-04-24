@@ -72,14 +72,12 @@ class HomeFragment : Fragment() {
         // Handle user button click
         val userButton = view.findViewById<ImageButton>(R.id.user_button)
         userButton.setOnClickListener {
-            Log.d("HomeFragment", "User button clicked")
             // Navigate to the user profile/settings screen
             findNavController().navigate(R.id.action_homeFragment_to_ProfileFragment)
         }
 
         val notificationButton = view.findViewById<ImageButton>(R.id.notification_button)
         notificationButton.setOnClickListener {
-            Log.d("HomeFragment", "Notification button clicked")
             findNavController().navigate(R.id.action_homeFragment_to_notificationsFragment)
         }
 
@@ -91,40 +89,31 @@ class HomeFragment : Fragment() {
 
     private fun fetchPopularAnimeByPopularity() {
         val apiService = MyAnimeListClient.getApiService()
-        Log.d("API Request", "Fetching anime ranking by popularity with limit 50 and fields title, main_picture, synopsis")
 
         val call = apiService.getAnimeRanking(
             rankingType = "bypopularity",
             limit = 50,
-            fields = "title, main_picture, synopsis, status" // Make sure to include synopsis if you use it
+            fields = "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes" // Make sure to include synopsis if you use it
         )
 
         call.enqueue(object : Callback<AnimeRankingResponse> {
             override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
-                Log.d("API Response Code", "Response code: ${response.code()}")
                 if (response.isSuccessful) {
-                    Log.d("API Raw Response", response.raw().toString())
 
                     val animeRankingResponse = response.body()
-                    Log.d("API Parsed Response", animeRankingResponse.toString())
 
                     val animeResponses = animeRankingResponse?.data ?: emptyList()
-                    Log.d("API Anime List", "Parsed ${animeResponses.size} anime items")
 
                     // Update parse function to take List<AnimeRankingResponse.AnimeRank>
                     val animeList = parseAnimeResponse(animeResponses)
-                    Log.d("Parsed Anime List", animeList.joinToString { "ID: ${it.id}, Title: ${it.title}" })
 
                     popularAdapter = AnimeAdapter(animeList, { anime -> onAnimeClicked(anime) }, { anime -> onAnimeLongClicked(anime) })
                     popularRecyclerView.adapter = popularAdapter
-                    Log.d("Adapter", "Adapter updated with ${animeList.size} items")
                 } else {
-                    Log.e("API Error", "Response code: ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<AnimeRankingResponse>, t: Throwable) {
-                Log.e("API Failure", "Failed to fetch data: ${t.message}")
             }
         })
     }
@@ -134,7 +123,6 @@ class HomeFragment : Fragment() {
 
     // Assuming you have a Firestore collection for user watchlists and each document has fields like 'status', 'animeId', 'title', etc.
     private fun loadRecentActivity() {
-        Log.d("RecentActivity", "loadRecentActivity() called")
 
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         if (uid == null) {
@@ -214,23 +202,23 @@ class HomeFragment : Fragment() {
         Log.d("API Request", "Fetching anime recommendations with limit 10")
 
         // Create the Authorization header with Bearer token
-        val authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImFmOTA4MjdlMjEzNDNlNGNmZjRjNzA2MzZlYzQ3YjdmOWFiMGE0Mjc5NzU3MzMwMDJiNDkwMzM4ZDI1M2UwMGE2Y2Q2MmY1ZWE5MzBjZTAxIn0.eyJhdWQiOiJjY2Y1ZDE1OWFjYTA5ZWFhZWQ1YzIzZjA1ZmRkMjlmNCIsImp0aSI6ImFmOTA4MjdlMjEzNDNlNGNmZjRjNzA2MzZlYzQ3YjdmOWFiMGE0Mjc5NzU3MzMwMDJiNDkwMzM4ZDI1M2UwMGE2Y2Q2MmY1ZWE5MzBjZTAxIiwiaWF0IjoxNzQyNzQzNDY0LCJuYmYiOjE3NDI3NDM0NjQsImV4cCI6MTc0NTQyMTg2NCwic3ViIjoiMTc0NjA5NzAiLCJzY29wZXMiOltdfQ.KezasgRvzWj-8Unbl08HUfmEOvvuvWn1WhEd1xuy-X-3vyDCsJh6MQv8XtiZJDAckTiblAEdpcjOXC9vnU7Yet_jBtIiQWWGX-US322uKokRaxpcEir2f8dKl3smPVUraBBhii2Co0b7HLsAIr5pIElIjRrKGq1X20h_Y32gb_mh6y6nCjblCYeUJUpYd4h9waIj6ipiWm4oC04P2JPaINN0cJzXA52NNHNzXxGL_ABUH2xAhN7l1wlKhfWDoD39Y5USLM-9bylajs_OK6QIqyLUQse0vCTn_EZnXMXEMSj6hmrudm6ZbThFCWNzsmOhm8j5VpF9UjTLP0cGiLB_Rg\n".trim()
-        Log.d("Authorization Token", authHeader)
+        val authHeader = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjkwMTZjZWRlMDNmYjk0YTdiMWRiMDVlNWZmNDkzOWU3YzM5ZjQ1ZTgxMzliYTczNWE3MjU4YWRiYmU0MjE2MGQ3MGQ3Njc2ZDAxYjIzMmYzIn0.eyJhdWQiOiJjY2Y1ZDE1OWFjYTA5ZWFhZWQ1YzIzZjA1ZmRkMjlmNCIsImp0aSI6IjkwMTZjZWRlMDNmYjk0YTdiMWRiMDVlNWZmNDkzOWU3YzM5ZjQ1ZTgxMzliYTczNWE3MjU4YWRiYmU0MjE2MGQ3MGQ3Njc2ZDAxYjIzMmYzIiwiaWF0IjoxNzQ1NDYxMTkyLCJuYmYiOjE3NDU0NjExOTIsImV4cCI6MTc0ODA1MzE5Miwic3ViIjoiMTc0NjA5NzAiLCJzY29wZXMiOltdfQ.NyJbWGooccf5lr1iFrkNyF5W8tCThafC-h0bJ62_uEdj8irbn3pErnE33DwPyL-uOy7d17TQ8ynH8OrrNwwJb9pfZkAjmhJr6wlpsb-ZZPHPihb7bTaMX35gra_x2bXh4ZJxyNTEuxGbX-h8-KpsOpQJ38AO1_0xnZBC_yNXytGTfKdlGylP545HWOEZqtSKO0cti5Ln6nx52NIx5mVWzE2hjMgfS-LNOOxXitNsASPWCS-Qgy4_vLOnvL7FEzufs7NOg9uZZtLAeQekB6lM8DtvW9r4jzTuQ9QvKXv-5OIuE2IfQeGpjBuIDXk7UADXyVXiXSxzrc5kLzdRdps-CA\n".trim()
+        Log.d("Authorization Token2", authHeader)
 
         // Call the API endpoint for recommendations
         val call = apiService.getAnimeSuggestions(authHeader)
 
         call.enqueue(object : Callback<AnimeSuggestionsResponse> {
             override fun onResponse(call: Call<AnimeSuggestionsResponse>, response: Response<AnimeSuggestionsResponse>) {
-                Log.d("API Response Code", "Response code: ${response.code()}")
+                Log.d("API Response Code2", "Response code: ${response.code()}")
                 if (response.isSuccessful) {
-                    Log.d("API Raw Response", response.raw().toString())
+                    Log.d("API Raw Response2", response.raw().toString())
 
                     val suggestionsResponse = response.body()
-                    Log.d("API Parsed Response", suggestionsResponse.toString())
+                    Log.d("API Parsed Response2", suggestionsResponse.toString())
 
                     val animeSuggestions = suggestionsResponse?.data ?: emptyList()
-                    Log.d("API Recommendations List", "Parsed ${animeSuggestions.size} anime items")
+                    Log.d("API Recommendations List2", "Parsed ${animeSuggestions.size} anime items")
 
                     // Update parse function to convert List<AnimeSuggestion> to List<Anime>
                     val recommendedList = parseSuggestionsResponse(animeSuggestions)
@@ -244,12 +232,12 @@ class HomeFragment : Fragment() {
                     recommendedRecyclerView.adapter = recommendedAdapter
                     Log.d("Adapter", "Recommended adapter updated with ${recommendedList.size} items")
                 } else {
-                    Log.e("API Error", "Response code: ${response.code()}")
+                    Log.e("API Error2", "Response code: ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<AnimeSuggestionsResponse>, t: Throwable) {
-                Log.e("API Failure", "Failed to fetch recommendations: ${t.message}")
+                Log.e("API Failure2", "Failed to fetch recommendations: ${t.message}")
             }
         })
     }
@@ -259,15 +247,20 @@ class HomeFragment : Fragment() {
 
     private fun parseAnimeResponse(animeResponses: List<AnimeRankingResponse.AnimeRank>): List<Anime> {
         Log.d("Parse Anime Response", "Converting ${animeResponses.size} AnimeRank objects to Anime objects")
-        return animeResponses.mapNotNull { animeRank ->
-            animeRank.node.main_picture?.let { mainPicture ->
+        return animeResponses.map { animeRank ->
+            animeRank.node.main_picture.let { mainPicture ->
                 Log.d("Anime Conversion", "Mapping AnimeRank to Anime: ID=${animeRank.node.id}, Title=${animeRank.node.title}")
                 Anime(
                     id = animeRank.node.id,
                     title = animeRank.node.title, // Default value for title
                     imageUrl = mainPicture.medium,
-                    description = animeRank.node.synopsis // Assuming synopsis is available in AnimeNode
+                    description = animeRank.node.synopsis, // Assuming synopsis is available in AnimeNode
+                    num_episodes = animeRank.node.num_episodes ?: 0,
+                    start_date = animeRank.node.start_date ?: "Unknown start date", // Default start date if null
+                    end_date = animeRank.node.end_date ?: "Unknown end date", // Default end date if null
+                    media_type = animeRank.node.media_type ?: "Unknown media type"
                 )
+
             }
         }
     }
@@ -287,16 +280,15 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // Handle click event
+    // In your onAnimeClicked function
     fun onAnimeClicked(anime: Anime) {
+        Log.d("Navigation", "Sending anime: $anime")
         val bundle = Bundle().apply {
-            putParcelable("anime", anime)
+            putParcelable("anime", anime) // Make sure you're passing the Anime object correctly
         }
-
         findNavController().navigate(R.id.action_homeFragment_to_animeDetailFragment, bundle)
-
-        Log.d("Click", "Clicked on: ${anime.title}")
     }
+
 
 
     // Handle long-click event

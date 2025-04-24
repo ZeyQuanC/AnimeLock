@@ -69,7 +69,7 @@ class DiscoveryFragment : Fragment() {
 
     private fun fetchFeaturedAnime() {
         val apiService = MyAnimeListClient.getApiService()
-        val call = apiService.getFeaturedAnime()
+        val call = apiService.getFeaturedAnime(50, "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes")
 
         Log.d("API Call", "Fetching featured anime from: $call")
 
@@ -87,8 +87,14 @@ class DiscoveryFragment : Fragment() {
                                 id = animeResponse.node.id,
                                 title = animeResponse.node.title,
                                 imageUrl = animeResponse.node.main_picture.medium,
-                                description = animeResponse.node.synopsis
-                            )
+                                description = animeResponse.node.synopsis,
+                                media_type = animeResponse.node.media_type ?: "Unknown media type",
+                                status = animeResponse.node.status,  // Status
+                                num_episodes = animeResponse.node.num_episodes ?: 0,
+                                start_date = animeResponse.node.start_date ?: "Unknown start date", // Default start date if null
+                                end_date = animeResponse.node.end_date ?: "Unknown end date",
+
+                                )
                         }.toMutableList()
 
                         // Inside fetchFeaturedAnime or wherever you're initializing the RecyclerView
@@ -134,7 +140,8 @@ class DiscoveryFragment : Fragment() {
                                 id = seasonalAnimeResponse.node.id,
                                 title = seasonalAnimeResponse.node.title,
                                 imageUrl = seasonalAnimeResponse.node.main_picture?.medium,
-                                description = seasonalAnimeResponse.node.synopsis ?: "No description available" // Provide a default if null
+                                description = seasonalAnimeResponse.node.synopsis ?: "No description available", // Provide a default if null
+
                             )
                         }.toMutableList()
 
@@ -165,7 +172,7 @@ class DiscoveryFragment : Fragment() {
 
     private fun fetchTrendingAnime() {
         val apiService = MyAnimeListClient.getApiService()
-        val call = apiService.getAnimeRanking("airing", 50, "title,main_picture,synopsis") // Adjusted to use the correct parameters
+        val call = apiService.getAnimeRanking("airing", 50, "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes") // Adjusted to use the correct parameters
 
         call.enqueue(object : Callback<AnimeRankingResponse> {
             override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
@@ -178,7 +185,11 @@ class DiscoveryFragment : Fragment() {
                             title = animeNode.title,  // Get title from animeNode
                             imageUrl = animeNode.main_picture.medium,  // Get medium image URL from main_picture
                             description = animeNode.synopsis,  // Get synopsis from animeNode
-                            status = animeNode.status
+                            status = animeNode.status ?: "Unknown",
+                            num_episodes = animeNode.num_episodes ?: 0,
+                            start_date = animeNode.start_date ?: "Unknown start date", // Default start date if null
+                            end_date = animeNode.end_date ?: "Unknown end date", // Default end date if null
+                            media_type = animeNode.media_type ?: "Unknown media type"
                         )
                     }?.toMutableList() ?: mutableListOf()
 
@@ -199,29 +210,35 @@ class DiscoveryFragment : Fragment() {
 
     private fun fetchNewReleases() {
         val apiService = MyAnimeListClient.getApiService()
-        val call = apiService.getAnimeRanking("upcoming", 50, "title,main_picture,synopsis") // Adjusted to use the upcoming ranking type
+        val call = apiService.getAnimeRanking("upcoming", 50, "id,title,synopsis,main_picture,start_date,end_date,media_type,rank,status,num_episodes")
 
         call.enqueue(object : Callback<AnimeRankingResponse> {
             override fun onResponse(call: Call<AnimeRankingResponse>, response: Response<AnimeRankingResponse>) {
                 if (response.isSuccessful) {
                     val newReleasesResponse = response.body()
                     newReleasesList = newReleasesResponse?.data?.map { animeRank ->
-                        // Navigate through the AnimeRank to get to the AnimeNode
+                        // Accessing the AnimeNode from AnimeRank
                         val animeNode = animeRank.node
                         Anime(
-                            id = animeNode.id,
-                            title = animeNode.title,
-                            imageUrl = animeNode.main_picture.medium,
-                            description = animeNode.synopsis,
-                            status =  "Unknown" // Ensure 'status' is handled
+                            id = animeNode.id, // Directly access `id` from AnimeNode
+                            title = animeNode.title ?: "Untitled", // Fallback if title is null
+                            imageUrl = animeNode.main_picture.medium ?: "", // Default empty if image is missing
+                            description = animeNode.synopsis ?: "No description available.", // Default if synopsis is missing
+                            status = animeNode.status ?: "Unknown", // Default if status is missing
+                            rank = animeNode.rank ?: 0, // Default to 0 if rank is missing (as an integer)
+                            num_episodes = animeNode.num_episodes ?: 0,
+                            start_date = animeNode.start_date ?: "Unknown start date", // Default start date if null
+                            end_date = animeNode.end_date ?: "Unknown end date", // Default end date if null
+                            media_type = animeNode.media_type ?: "Unknown media type",
                         )
+
+
                     }?.toMutableList() ?: mutableListOf()
 
                     recyclerViewNewReleases.adapter = AnimeAdapter(newReleasesList,
                         { anime -> onAnimeClicked(anime) }, // Handle click event for featured anime
                         { anime -> onAnimeLongClicked(anime) } // Optionally, handle long-click event
                     )
-
                 }
             }
 
@@ -230,6 +247,8 @@ class DiscoveryFragment : Fragment() {
             }
         })
     }
+
+
 
 
 

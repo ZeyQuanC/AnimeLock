@@ -1,23 +1,21 @@
 package com.example.animelocker
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class AnimeDetailFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,36 +28,61 @@ class AnimeDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val anime: Anime? = arguments?.getParcelable("anime")
+        if (anime == null) {
+            // Handle the error or show a default message
+            Toast.makeText(context, "Anime data is missing", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        anime?.let {
+
+        anime.let {
             // Set anime details in UI
             view.findViewById<TextView>(R.id.anime_title).text = it.title
-            view.findViewById<TextView>(R.id.anime_description).text = it.description
-            view.findViewById<TextView>(R.id.anime_status).text = it.status
 
-            // Set the anime image using Glide
+            val descriptionText = view.findViewById<TextView>(R.id.anime_description)
+            val toggleText = view.findViewById<TextView>(R.id.description_toggle)
+            descriptionText.text = it.description ?: "No description available" // Default message if description is null
+            var isExpanded = false
+
+            // Toggle logic for expanding/collapsing description
+            toggleText.setOnClickListener {
+                isExpanded = !isExpanded
+                descriptionText.maxLines = if (isExpanded) Int.MAX_VALUE else 4
+                toggleText.text = if (isExpanded) getString(R.string.show_less) else getString(R.string.show_more)
+            }
+
+            // Set the status, rank, type, episodes, and airing dates
+            view.findViewById<TextView>(R.id.anime_status).text = it.status ?: "Unknown"
+            view.findViewById<TextView>(R.id.anime_score).text = getString(R.string.score, it.rank?.toString() ?: "N/A") // Using rank
+            view.findViewById<TextView>(R.id.anime_type).text = getString(R.string.type, it.media_type ?: "N/A") // Using media_type
+            view.findViewById<TextView>(R.id.anime_episodes).text = getString(R.string.episodes, it.num_episodes ?: 0) // Using num_episodes
+            view.findViewById<TextView>(R.id.anime_airing_dates).text = getString(R.string.airing_dates, it.start_date ?: "?", it.end_date ?: "?") // Using start_date and end_date
+
+            // Log the anime data for debugging
+            Log.d("AnimeDetailFragment", "Start Date: ${it.start_date}")
+            Log.d("AnimeDetailFragment", "End Date: ${it.end_date}")
+            Log.d("AnimeDetailFragment", "Media Type: ${it.media_type}")
+            Log.d("AnimeDetailFragment", "Rank: ${it.rank}")
+            Log.d("AnimeDetailFragment", "Status: ${it.status}")
+            Log.d("AnimeDetailFragment", "Num Episodes: ${it.num_episodes}")
+
+            // Load the anime image using Glide
             val animeImage = view.findViewById<ImageView>(R.id.animeImageView)
             Glide.with(requireContext())
-                .load(it.imageUrl)
-                .placeholder(R.drawable.placeholder_image) // Show while loading
-                // .error(R.drawable.error_image) // Show if loading fails
+                .load(it.imageUrl) // Using imageUrl instead of main_picture
+                .placeholder(R.drawable.placeholder_image)
                 .into(animeImage)
 
+            // Set up "Add to Watchlist" button
             val addToWatchlistButton: Button = view.findViewById(R.id.button_add_to_watchlist)
             addToWatchlistButton.setOnClickListener {
-                anime.let {
-                    // Create a bundle and put the Anime object in it
+                anime.let { animeItem ->
                     val bundle = Bundle().apply {
-                        putParcelable("anime", it)  // Put the anime object as a Parcelable in the bundle
+                        putParcelable("anime", animeItem) // Pass the Anime object to next fragment
                     }
-
-                    // Navigate to AddToWatchlistFragment with the bundle
                     findNavController().navigate(R.id.action_animeDetailFragment_to_addToWatchlistFragment, bundle)
                 }
             }
-
-
-
 
             // Set up bottom navigation
             val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
@@ -67,31 +90,37 @@ class AnimeDetailFragment : Fragment() {
                 when (item.itemId) {
                     R.id.navigation_home -> {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_homeFragment)
-                        return@setOnNavigationItemSelectedListener true
+                        true
                     }
+
                     R.id.navigation_watchlist -> {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_watchlistFragment)
-                        return@setOnNavigationItemSelectedListener true
+                        true
                     }
+
                     R.id.navigation_Discovery -> {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_discoveryFragment)
-                        return@setOnNavigationItemSelectedListener true
+                        true
                     }
+
                     R.id.navigation_community -> {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_communityFragment)
-                        return@setOnNavigationItemSelectedListener true
+                        true
                     }
+
                     R.id.navigation_events -> {
                         findNavController().navigate(R.id.action_animeDetailFragment_to_eventsFragment)
-                        return@setOnNavigationItemSelectedListener true
+                        true
                     }
+
                     else -> false
                 }
             }
         }
     }
-
-
 }
+
+
+
 
 

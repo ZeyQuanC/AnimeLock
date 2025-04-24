@@ -55,8 +55,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.eventsFragment -> {
                     bottomNavigationView.visibility = View.VISIBLE
-                    Log.d(TAG, "Showing BottomNavigationView for communityFragment.")
+                    Log.d(TAG, "Showing BottomNavigationView for eventsFragment.")
                 }
+
                 else -> {
                     bottomNavigationView.visibility = View.GONE
                     Log.d(TAG, "Hiding BottomNavigationView for destination: ${destination.label}.")
