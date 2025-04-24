@@ -49,13 +49,14 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
     - Read and contribute reviews and ratings from other users.
 7.  *Anime News Feed*:
     - Stay updated with the latest news and announcements in the anime industry.
-8.  *Friends & Following*:
-    - Connect with friends and see what they are watching to discover new shows.
+  
 
 **Optional Features**
 
-1. 
-3. 
+1. *Friends & Following*:
+    - Connect with friends and see what they are watching to discover new shows.
+  
+2.  
 
 ### 2. Screen Archetypes
 
