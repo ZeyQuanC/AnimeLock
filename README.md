@@ -141,12 +141,17 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 
 ## Wireframes
 
-<img src=".jpg" width=600>
+<img src="First Screens.png" width=600>
 <br>
-<img src=".jpg" width=600>
+<img src="Second Screens.png" width=600>
 
 
 
 ## App Demo Video
 
+*First Phase*:
+
+<br>
+
+*Second Phase*:
 
