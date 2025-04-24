@@ -6,6 +6,8 @@
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
 1. [Phase 1](#Phase-1)
+2. [Phase 2](#Phase-2)
+3. [App Demo Video](#App-Demo-Video)
 
 ## Overview
 
