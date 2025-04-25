@@ -117,7 +117,7 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 
 **Flow Navigation** (Screen to Screen)
 
-- Login Screnn
+- Login Screen
   - => Home Screen
   
 - Sign Up Screen 
