@@ -1,3 +1,5 @@
+
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,90 +55,127 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Horizontal Layout for Profile Picture and Username -->
-    <LinearLayout
-        android:id="@+id/profile_layout"
+    <!-- Scrollable content below toolbar -->
+    <ScrollView
+        android:id="@+id/scrollableContent"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
 
-        <!-- Profile Image as Button -->
-        <ImageButton
-            android:id="@+id/profileImageButton"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:contentDescription="@string/profile_picture"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless" /> <!-- Button style -->
-
-        <!-- Username Text -->
-        <TextView
-            android:id="@+id/usernameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/usernameprofile"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <!-- Edit Bio -->
-    <LinearLayout
-        android:id="@+id/editBioLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/profile_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Bio Text or EditText -->
-        <EditText
-            android:id="@+id/bioEditText"
+        <!-- LinearLayout inside ScrollView for vertical scrolling -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/edit_bio_hint"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:visibility="gone"
-            android:importantForAutofill="no" /> <!-- Hidden by default -->
+            android:orientation="vertical">
 
-        <!-- Bio Text (Read-Only) -->
-        <TextView
-            android:id="@+id/bioTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/userBio"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            android:visibility="visible"/> <!-- Visible by default -->
+            <!-- Profile section -->
+            <LinearLayout
+                android:id="@+id/profile_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginTop="30dp">
 
-        <!-- Edit Bio Button -->
-        <Button
-            android:id="@+id/editBioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_bio"
-            android:layout_marginTop="10dp"
-            android:visibility="visible"/> <!-- Visible by default -->
+                <!-- Profile Image as Button -->
+                <ImageButton
+                    android:id="@+id/profileImageButton"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@string/profile_picture"
+                    android:layout_marginEnd="16dp"
+                    android:background="?attr/selectableItemBackgroundBorderless" /> <!-- Button style -->
 
-        <Button
-            android:id="@+id/saveBioButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"/>
+                <!-- Username Text -->
+                <TextView
+                    android:id="@+id/usernameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/usernameprofile"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <!-- Edit Bio Section -->
+            <LinearLayout
+                android:id="@+id/editBioLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <!-- Bio Text or EditText -->
+                <EditText
+                    android:id="@+id/bioEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/edit_bio_hint"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:visibility="gone"
+                    android:importantForAutofill="no" /> <!-- Hidden by default -->
+
+                <!-- Bio Text (Read-Only) -->
+                <TextView
+                    android:id="@+id/bioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/userBio"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"/> <!-- Visible by default -->
+
+                <!-- Edit Bio Button -->
+                <Button
+                    android:id="@+id/editBioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_bio"
+                    android:background="@color/red"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:visibility="visible"/> <!-- Visible by default -->
+
+                <Button
+                    android:id="@+id/saveBioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/completed_anime"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/completedAnimeRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:scrollbars="horizontal"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -149,4 +188,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 

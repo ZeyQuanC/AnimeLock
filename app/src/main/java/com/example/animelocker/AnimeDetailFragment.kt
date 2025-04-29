@@ -1,5 +1,10 @@
 package com.example.animelocker
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -84,6 +90,21 @@ class AnimeDetailFragment : Fragment() {
                 }
             }
 
+
+
+            val reminderButton: Button = view.findViewById(R.id.button_set_reminder)
+            reminderButton.setOnClickListener {
+                val animeTitle = anime.title ?: "Anime Reminder"
+                val content = "Don't forget: a new episode might be airing soon!"
+
+                // TODO: Replace this with a real episode release time if available
+                val timeInMillis = System.currentTimeMillis() + 60 * 1000 // For testing: 1 minute from now
+
+                scheduleNotification(animeTitle, content, timeInMillis)
+                Toast.makeText(requireContext(), "Reminder set!", Toast.LENGTH_SHORT).show()
+            }
+
+
             // Set up bottom navigation
             val bottomNavigationView: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
             bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -118,6 +139,45 @@ class AnimeDetailFragment : Fragment() {
             }
         }
     }
+
+    private fun scheduleNotification(title: String, content: String, timeInMillis: Long) {
+        val context = requireContext() // Use Fragment's context safely
+
+        val intent = Intent(context, NotificationReceiver::class.java).apply {
+            putExtra("title", title)
+            putExtra("content", content)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            title.hashCode(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
+                } else {
+                    val permissionIntent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                    startActivity(permissionIntent)
+                }
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+            Toast.makeText(context, "Permission to set exact alarms is denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
+
+
 }
 
 

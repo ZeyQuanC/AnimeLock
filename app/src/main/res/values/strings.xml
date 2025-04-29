@@ -61,7 +61,7 @@
     <string name="status">Status:</string>
     <string name="anime_title">Anime Title</string>
     <string name="anime_description">Anime Description</string>
-    <string name="statuss">Status</string>
+    <string name="statuss">Status: %s</string>
     <string name="add_to_watchlist">Add to Watchlist</string>
     <string name="statusdropdown">Status</string>
     <string name="episodes_watched">Episodes Watched: %d</string>
@@ -79,5 +79,16 @@
     <string name="date">Date</string>
     <string name="by_author">By: %s</string>
     <string name="full_discussion">Full Discussion Content</string>
+    <string name="score">Score: %1$s</string>
+    <string name="type">Type: %1$s</string>
+    <string name="episodes">Episodes: %1$d</string>
+    <string name="airing_dates">Aired: %1$s - %2$s</string>
+    <string name="genres">Genres: %1$s</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
+    <string name="notification_title">Notification Title</string>
+    <string name="notification_message_goes_here">Notification message goes here.</string>
+    <string name="completed_anime">Completed Anime</string>
+    <string name="set_reminder">Set Reminder</string>
 
 </resources>

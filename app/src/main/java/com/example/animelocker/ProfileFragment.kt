@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -84,6 +86,12 @@ class ProfileFragment : Fragment() {
                 else -> false
             }
         }
+
+
+        val completedAnimeRecyclerView = view.findViewById<RecyclerView>(R.id.completedAnimeRecyclerView)
+        completedAnimeRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        loadCompletedAnime()
+
 
         // Fetch user data from Firestore
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -163,6 +171,63 @@ class ProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Bio cannot be empty", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    private fun loadCompletedAnime() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid == null) {
+            Log.w("CompletedAnime", "User is not logged in or UID is null")
+            return
+        }
+
+        val watchlistRef = FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .collection("watchlist")
+
+        watchlistRef.whereEqualTo("status", "Completed") // only completed entries
+            .get()
+            .addOnSuccessListener { documents ->
+                val completedAnimeList = mutableListOf<Anime>()
+                for (doc in documents) {
+                    val anime = doc.toObject(Anime::class.java)
+                    completedAnimeList.add(anime)
+                }
+
+                updateCompletedAnimeRecyclerView(completedAnimeList)
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Failed to fetch completed anime", e)
+            }
+    }
+
+
+
+
+    private fun updateCompletedAnimeRecyclerView(completedAnimeList: List<Anime>) {
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.completedAnimeRecyclerView)
+
+        if (recyclerView == null) {
+            Log.w("CompletedAnime", "RecyclerView not found!")
+            return
+        }
+
+        val adapter = AnimeAdapter(
+            completedAnimeList,
+            onAnimeClick = { anime ->
+                Log.d("CompletedAnimeClick", "Clicked on ${anime.title}")
+            },
+            onAnimeLongClick = { anime ->
+                Log.d("CompletedAnimeLongClick", "Long-clicked on ${anime.title}")
+            }
+        )
+
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = adapter
+
+        Log.d("CompletedAnime", "RecyclerView updated with ${completedAnimeList.size} items")
+    }
+
 }
 
 

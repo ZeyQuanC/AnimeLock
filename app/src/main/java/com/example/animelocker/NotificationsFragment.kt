@@ -29,10 +29,11 @@ class NotificationsFragment : Fragment() {
         recyclerView = view.findViewById(R.id.notificationsRecyclerView)
         bottomNavigationView = view.findViewById(R.id.bottom_navigation)
 
+
+        // Get the notifications from the parent Activity
         adapter = NotificationsAdapter(notificationList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-
 
         // Set up bottom navigation
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -68,10 +69,9 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun loadNotifications() {
-        // Sample notifications
+        // You can later replace this with real API/database data
         notificationList.add(NotificationItem("New Episode Released!", "Attack on Titan has a new episode!"))
         notificationList.add(NotificationItem("Manga Update!", "One Piece Chapter 1100 is out now!"))
-
         adapter.notifyDataSetChanged()
     }
 }
