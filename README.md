@@ -83,24 +83,25 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
   - Popular Anime, user Recent Activity, and recommended shows.
 
 - Watchlist Screen
-   - user can categorized anime by Watching,Completed, Plan to watch, and Dropped.
+   - User can categorized anime by Watching,Completed, Plan to watch, and Dropped.
 
 - Discovery Screen
-   - user can browse featured, Trending, and differernt Genres.
+   - User can browse featured, Trending, and differernt Genres.
 
 - Community Screen
   - Users can communicate with eachother.
  
 - Planner/Calendar Screen
+  - Show users planned events. 
 
 - Manga Screen
-  - user can browse manga Featured, different Genres, Recently Updated, and Recommended for you.
+  - User can browse manga Featured, different Genres, Recently Updated, and Recommended for you.
 
 - Overview Screen
   - Shows user a more detailed view of anime or manga once clicked.
 
 - Add to watchlist Screen
-  - user can add/save anime or manga to watchlist (can back out of save).
+  - User can add/save anime or manga to watchlist (can back out of save).
 
 
   
