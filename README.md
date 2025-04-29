@@ -112,12 +112,12 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 * Tv to Watchlist Screen
 * Magnifying glass to Discovery Screen
 * People to Community Screen
-* Calender to Planner/Calender Screen
+* Calendar to Planner/Calendar Screen
 * Books to Manga Screen
 
 **Flow Navigation** (Screen to Screen)
 
-- Login Screnn
+- Login Screen
   - => Home Screen
   
 - Sign Up Screen 
