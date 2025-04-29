@@ -99,7 +99,7 @@ Anime Lock is a straightforward app for keeping track of your anime-watching pro
 - Overview Screen
   - Shows user a more detailed view of anime or manga once clicked.
 
-- Add to watchlsit Screen
+- Add to watchlist Screen
   - user can add/save anime or manga to watchlist (can back out of save).
 
 
