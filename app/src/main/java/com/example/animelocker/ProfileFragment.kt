@@ -5,12 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import android.text.TextUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,8 +25,10 @@ class ProfileFragment : Fragment() {
     private lateinit var editBioButton: Button
     private lateinit var saveBioButton: Button
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var bioToggleTextView: TextView
 
     private var isEditingBio = false
+    private var isBioExpanded = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,16 +48,7 @@ class ProfileFragment : Fragment() {
         editBioButton = view.findViewById(R.id.editBioButton)
         saveBioButton = view.findViewById(R.id.saveBioButton)
         bottomNavigationView = view.findViewById(R.id.bottom_navigation)
-
-
-        // Setup the button to toggle between edit mode and display mode for bio
-        editBioButton.setOnClickListener {
-            toggleBioEditMode(true)
-        }
-
-        saveBioButton.setOnClickListener {
-            saveBio()
-        }
+        bioToggleTextView = view.findViewById(R.id.bio_toggle)
 
         // Set up bottom navigation
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
@@ -93,22 +83,40 @@ class ProfileFragment : Fragment() {
         loadCompletedAnime()
 
 
-        // Fetch user data from Firestore
+        // Toggle bio edit
+        editBioButton.setOnClickListener { toggleBioEditMode(true) }
+        saveBioButton.setOnClickListener { saveBio() }
+
+        // Fetch user data
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId != null) {
             val firestore = FirebaseFirestore.getInstance()
             firestore.collection("users").document(userId).get()
                 .addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
-                        // Retrieve user data from Firestore
                         val username = documentSnapshot.getString("username") ?: "Unknown"
                         val bio = documentSnapshot.getString("bio") ?: "No bio available"
                         val profilePicUrl = documentSnapshot.getString("profile_pic_url")
 
-                        // Set text views
                         usernameTextView.text = username
                         bioTextView.text = bio
                         bioEditText.setText(bio)
+
+                        // Initial bio display
+                        bioTextView.maxLines = 3
+                        bioTextView.ellipsize = TextUtils.TruncateAt.END
+                        bioToggleTextView.text = getString(R.string.show_more)
+
+                        // Hide toggle if bio is short
+                        bioToggleTextView.visibility = if (bio.length < 100) View.GONE else View.VISIBLE
+
+                        bioToggleTextView.setOnClickListener {
+                            isBioExpanded = !isBioExpanded
+                            bioTextView.maxLines = if (isBioExpanded) Int.MAX_VALUE else 3
+                            bioTextView.ellipsize = if (isBioExpanded) null else TextUtils.TruncateAt.END
+                            bioToggleTextView.text = if (isBioExpanded)
+                                getString(R.string.show_less) else getString(R.string.show_more)
+                        }
 
                         // Load profile picture
                         if (!profilePicUrl.isNullOrEmpty()) {
@@ -131,21 +139,20 @@ class ProfileFragment : Fragment() {
     private fun toggleBioEditMode(isEditing: Boolean) {
         isEditingBio = isEditing
         if (isEditing) {
-            // Show the EditText and hide the TextView
             bioEditText.visibility = View.VISIBLE
             bioTextView.visibility = View.GONE
-
-            // Change button text to "Save"
+            bioToggleTextView.visibility = View.GONE
             saveBioButton.visibility = View.VISIBLE
             editBioButton.visibility = View.GONE
         } else {
-            // Show the TextView and hide the EditText
             bioEditText.visibility = View.GONE
             bioTextView.visibility = View.VISIBLE
-
-            // Change button text to "Edit"
             saveBioButton.visibility = View.GONE
             editBioButton.visibility = View.VISIBLE
+
+            // Re-check if toggle is needed
+            val updatedBio = bioEditText.text.toString()
+            bioToggleTextView.visibility = if (updatedBio.length < 100) View.GONE else View.VISIBLE
         }
     }
 
@@ -154,11 +161,9 @@ class ProfileFragment : Fragment() {
         if (newBio.isNotEmpty()) {
             val userId = FirebaseAuth.getInstance().currentUser?.uid
             if (userId != null) {
-                val firestore = FirebaseFirestore.getInstance()
-                firestore.collection("users").document(userId)
+                FirebaseFirestore.getInstance().collection("users").document(userId)
                     .update("bio", newBio)
                     .addOnSuccessListener {
-                        // Update the UI with the new bio
                         bioTextView.text = newBio
                         toggleBioEditMode(false)
                     }
@@ -229,5 +234,7 @@ class ProfileFragment : Fragment() {
     }
 
 }
+
+
 
 
