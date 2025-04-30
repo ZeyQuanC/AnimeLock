@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +35,7 @@ class WatchlistFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_watchlist)
         adapter = AnimeAdapter(watchlist, { anime -> onAnimeClick(anime) }, { anime -> removeAnimeFromWatchlist(anime) })
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         // Set up filter buttons
         setupFilterButtons(view)

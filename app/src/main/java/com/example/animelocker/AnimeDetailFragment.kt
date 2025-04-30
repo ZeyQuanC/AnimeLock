@@ -59,10 +59,11 @@ class AnimeDetailFragment : Fragment() {
 
             // Set the status, rank, type, episodes, and airing dates
             view.findViewById<TextView>(R.id.anime_status).text = it.status ?: "Unknown"
-            view.findViewById<TextView>(R.id.anime_score).text = getString(R.string.score, it.rank?.toString() ?: "N/A") // Using rank
             view.findViewById<TextView>(R.id.anime_type).text = getString(R.string.type, it.media_type ?: "N/A") // Using media_type
             view.findViewById<TextView>(R.id.anime_episodes).text = getString(R.string.episodes, it.num_episodes ?: 0) // Using num_episodes
             view.findViewById<TextView>(R.id.anime_airing_dates).text = getString(R.string.airing_dates, it.start_date ?: "?", it.end_date ?: "?") // Using start_date and end_date
+
+           // view.findViewById<TextView>(R.id.anime_genres).text = getString(R.string.genres, genreNames)
 
             // Log the anime data for debugging
             Log.d("AnimeDetailFragment", "Start Date: ${it.start_date}")

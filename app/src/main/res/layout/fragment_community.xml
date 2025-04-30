@@ -35,10 +35,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/animelockh"
+                android:textStyle="bold|italic"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:gravity="center"
-                android:layout_marginEnd="40dp"/>
+                />
+
+
+            <ImageButton
+                android:id="@+id/notification_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/notification_button"
+                android:src="@drawable/baseline_alarm_24"
+                android:padding="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="10dp"/>
 
 
         </LinearLayout>

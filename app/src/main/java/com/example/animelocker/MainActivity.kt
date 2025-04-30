@@ -21,9 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    val notificationList = mutableListOf<NotificationItem>() // This holds the notifications
-    lateinit var adapter: NotificationsAdapter
-   // private lateinit var recyclerView: RecyclerView
+
 
     // Add a TAG for logging
     private val TAG = "MainActivity"

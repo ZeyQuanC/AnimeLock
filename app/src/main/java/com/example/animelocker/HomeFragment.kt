@@ -258,8 +258,10 @@ class HomeFragment : Fragment() {
                     num_episodes = animeRank.node.num_episodes ?: 0,
                     start_date = animeRank.node.start_date ?: "Unknown start date", // Default start date if null
                     end_date = animeRank.node.end_date ?: "Unknown end date", // Default end date if null
-                    media_type = animeRank.node.media_type ?: "Unknown media type"
-                )
+                    media_type = animeRank.node.media_type ?: "Unknown media type",
+                    status = animeRank.node.status ?: "Unknown"
+
+                    )
 
             }
         }

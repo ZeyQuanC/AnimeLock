@@ -79,7 +79,6 @@
     <string name="date">Date</string>
     <string name="by_author">By: %s</string>
     <string name="full_discussion">Full Discussion Content</string>
-    <string name="score">Score: %1$s</string>
     <string name="type">Type: %1$s</string>
     <string name="episodes">Episodes: %1$d</string>
     <string name="airing_dates">Aired: %1$s - %2$s</string>

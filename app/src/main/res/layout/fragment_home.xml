@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/animelockh"
+                android:textStyle="bold|italic"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:gravity="center" />
@@ -70,8 +71,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/popular_anime"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:layout_marginTop="30dp"
-                android:padding="1dp"/>
+                android:layout_marginStart="8dp"
+                android:padding="2dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_popular"
@@ -84,8 +87,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recent_activity"
+                android:textStyle="bold"
                 android:textSize="18sp"
-                android:padding="1dp"/>
+                android:layout_marginStart="8dp"
+                android:padding="2dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewRecentActivity"
@@ -98,8 +103,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recommended_anime"
+                android:textStyle="bold"
                 android:textSize="18sp"
-                android:padding="1dp"/>
+                android:layout_marginStart="8dp"
+                android:padding="2dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_recommended"

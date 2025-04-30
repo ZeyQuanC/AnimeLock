@@ -72,6 +72,22 @@ class NotificationsFragment : Fragment() {
         // You can later replace this with real API/database data
         notificationList.add(NotificationItem("New Episode Released!", "Attack on Titan has a new episode!"))
         notificationList.add(NotificationItem("Manga Update!", "One Piece Chapter 1100 is out now!"))
+        notificationList.add(NotificationItem("Season Finale!", "Jujutsu Kaisen Season 2 finale airs tonight!"))
+        notificationList.add(NotificationItem("New Trailer!", "Check out the trailer for Demon Slayer: Infinity Castle Arc!"))
+        notificationList.add(NotificationItem("New Anime Added!", "Solo Leveling is now available to watch!"))
+        notificationList.add(NotificationItem("Event Reminder!", "Anime Expo Virtual Meetup starts in 2 hours!"))
+        notificationList.add(NotificationItem("Manga Update!", "My Hero Academia Chapter 425 is now available!"))
+        notificationList.add(NotificationItem("Watch Party!", "Join the community watch party for Naruto this weekend!"))
+        notificationList.add(NotificationItem("Cosplay Contest!", "Submit your entry for the Fall Cosplay Challenge!"))
+        notificationList.add(NotificationItem("New Feature!", "Offline mode is now live — track your anime anytime!"))
+        notificationList.add(NotificationItem("Recommendation!", "Based on your watchlist, try out 'Vinland Saga'!"))
+        notificationList.add(NotificationItem("Top Rated!", "Spy x Family is trending in the top 10 this week!"))
+        notificationList.add(NotificationItem("New Voice Actor Interview!", "Hear from the cast of Chainsaw Man!"))
+        notificationList.add(NotificationItem("Friend Request!", "You have a new friend request from OtakuMaster87!"))
+        notificationList.add(NotificationItem("Community Poll!", "Vote now: Best anime opening of the year!"))
+        notificationList.add(NotificationItem("New Manga Release!", "Chainsaw Man Part 2 Volume 1 is out!"))
+        notificationList.add(NotificationItem("Episode Recap!", "Missed the last episode of Bleach TYBW? Catch up now!"))
+
         adapter.notifyDataSetChanged()
     }
 }

@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/animelockh"
+                android:textStyle="bold|italic"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:gravity="center" />
@@ -118,11 +119,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/statuss" />
 
-            <TextView
-                android:id="@+id/anime_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/score" />
+
 
             <TextView
                 android:id="@+id/anime_type"
@@ -142,11 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/airing_dates" />
 
-            <TextView
-                android:id="@+id/anime_genres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/genres" />
+
 
 
             <Button
