@@ -10,8 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : RecyclerView.Adapter<DiscussionAdapter.ViewHolder>()
-{
+class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : RecyclerView.Adapter<DiscussionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_discussion, parent, false)
@@ -20,20 +19,20 @@ class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : Recy
 
     private fun fetchForumTopicContent(id: Int, callback: (String?) -> Unit) {
         // Mock: Replace with your actual network logic (Retrofit/Volley/etc.)
-        callback("Here is the detailed content for the forum topic")
+        callback("Here is the detailed content for the forum topic")  // Simulate network call
     }
 
     private fun toggleTopicExpansion(position: Int) {
         val forumTopic = discussions[position]
         forumTopic.isExpanded = !forumTopic.isExpanded
         Log.d("DiscussionAdapter", "Toggled expansion for topic: ${forumTopic.title}, isExpanded: ${forumTopic.isExpanded}")
-        notifyItemChanged(position)
+        notifyItemChanged(position)  // Notify the item changed to trigger UI update
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val forumTopic = discussions[position]
 
-        val authorName = forumTopic.author?.username ?: "Unknown"
+        val authorName = forumTopic.created_by?.name ?: "Unknown"
         val formattedAuthor = holder.itemView.context.getString(R.string.by_author, authorName)
 
         val rawDate = forumTopic.created_at
@@ -52,19 +51,14 @@ class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : Recy
         // Toggle visibility based on isExpanded flag
         if (forumTopic.isExpanded) {
             holder.contentTextView.visibility = View.VISIBLE
-            holder.contentTextView.text = "Loading content..."  // Temporary placeholder while loading
-
             // Fetch and display the content
             fetchForumTopicContent(forumTopic.id) { content ->
-                Log.d("DiscussionAdapter", "Fetched content: $content")
                 holder.contentTextView.text = content ?: "No content available"
             }
         } else {
             holder.contentTextView.visibility = View.GONE
         }
     }
-
-
 
     override fun getItemCount(): Int = discussions.size
 
@@ -85,8 +79,8 @@ class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : Recy
         val authorTextView: TextView = view.findViewById(R.id.textViewAuthor)
         val dateTextView: TextView = view.findViewById(R.id.textViewDate)
         val contentTextView: TextView = view.findViewById(R.id.textViewContent)
-
     }
 }
+
 
 
