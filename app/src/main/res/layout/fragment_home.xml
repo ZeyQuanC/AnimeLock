@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/animelock_bg"
     android:orientation="vertical">
 
     <!-- Toolbar as a header -->
@@ -71,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/popular_anime"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="8dp"
@@ -87,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recent_activity"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginStart="8dp"
@@ -103,6 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recommended_anime"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginStart="8dp"
