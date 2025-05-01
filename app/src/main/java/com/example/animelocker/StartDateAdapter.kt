@@ -1,10 +1,14 @@
 package com.example.animelocker
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class StartDateAdapter(private val startDates: MutableList<StartDate>) : RecyclerView.Adapter<StartDateAdapter.StartDateViewHolder>() {
 
@@ -28,10 +32,32 @@ class StartDateAdapter(private val startDates: MutableList<StartDate>) : Recycle
 
         fun bind(startDate: StartDate) {
             titleTextView.text = startDate.title // Set the title of the show
-            startDateTextView.text = startDate.date // Set the start date
+
+            // Format the start date
+            val formattedDate = try {
+                // Assume the date format in the StartDate is "yyyy-MM-dd"
+                val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+                val date = inputDateFormat.parse(startDate.date)
+                if (date != null) {
+                    val formatted = outputDateFormat.format(date)
+                    Log.d("StartDateAdapter", "Formatted date: $formatted") // Log formatted date
+                    formatted
+                } else {
+                    Log.d("StartDateAdapter", "Invalid date: ${startDate.date}") // Log if date is invalid
+                    startDate.date // Return original if invalid
+                }
+            } catch (e: ParseException) {
+                Log.e("StartDateAdapter", "Error parsing date: ${startDate.date}", e) // Log parse error
+                startDate.date // Return original if parsing fails
+            }
+
+            startDateTextView.text = formattedDate.toString() // Set the formatted start date
         }
     }
 }
+
 
 
 

@@ -89,5 +89,6 @@
     <string name="notification_message_goes_here">Notification message goes here.</string>
     <string name="completed_anime">Completed Anime</string>
     <string name="set_reminder">Set Reminder</string>
+    <string name="more_event_info_goes_here">More event info goes here...</string>
 
 </resources>
