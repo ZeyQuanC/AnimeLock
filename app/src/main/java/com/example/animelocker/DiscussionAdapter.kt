@@ -70,6 +70,7 @@ class DiscussionAdapter(private val discussions: MutableList<ForumTopic>) : Recy
             val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
             outputFormat.format(date!!)
         } catch (e: Exception) {
+            Log.e("DiscussionAdapter", "Error parsing date: ${e.message}")
             "Invalid Date"
         }
     }
